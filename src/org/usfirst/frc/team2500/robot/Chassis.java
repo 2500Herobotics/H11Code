@@ -2,19 +2,22 @@ package org.usfirst.frc.team2500.robot;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 public class Chassis {
 
-	Encoder leftSideEndoder;
-	Encoder rightSideEndoder;
+	private Encoder leftSideEndoder;
+	private Encoder rightSideEndoder;
+	
+	private Gyro gyro;
 
-	Victor leftSideMotor1;
-	Victor leftSideMotor2;
-	Victor leftSideMotor3;
+	private Victor leftSideMotor1;
+	private Victor leftSideMotor2;
+	private Victor leftSideMotor3;
 
-	Victor rightSideMotor1;
-	Victor rightSideMotor2;
-	Victor rightSideMotor3;
+	private Victor rightSideMotor1;
+	private Victor rightSideMotor2;
+	private Victor rightSideMotor3;
 	
 	public Chassis(){
 		leftSideMotor1 = new Victor(0);
@@ -64,7 +67,7 @@ public class Chassis {
 	
 	/*working variables*/
 	long lastTime;
-	double kp = 1, ki = 1, kd = 1;
+	double dkp = 1, dki = 1, dkd = 1;
 	
 	double errSum, lastErr;
 	double lastTarget;
@@ -87,7 +90,7 @@ public class Chassis {
 	   }
 	  
 	   /*Compute PID Output*/
-	   double output = kp * error + ki * errSum + kd * dErr;
+	   double output = dkp * error + dki * errSum + dkd * dErr;
 	  
 	   /*Remember some variables for next time*/
 	   lastErr = error;
@@ -116,7 +119,7 @@ public class Chassis {
 		   }
 		  
 		   /*Compute PID Output*/
-		   double outputLeft = kp * error + ki * errSumLeft + kd * dErr;
+		   double outputLeft = dkp * error + dki * errSumLeft + dkd * dErr;
 		  
 		   /*Remember some variables for next time*/
 		   lastErrLeft = error;
@@ -134,7 +137,7 @@ public class Chassis {
 		   }
 		  
 		   /*Compute PID Output*/
-		   double outputRight = kp * error + ki * errSumRight + kd * dErr;
+		   double outputRight = dkp * error + dki * errSumRight + dkd * dErr;
 		  
 		   /*Remember some variables for next time*/
 		   lastErrRight = error;
@@ -145,11 +148,49 @@ public class Chassis {
 		   tankDrive(outputLeft, outputRight);
 	}
 	  
-	void setDistanceK(double Kp, double Ki, double Kd)
+	void setDistanceK(double dKp, double dKi, double dKd)
 	{
-	   kp = Kp;
-	   ki = Ki;
-	   kd = Kd;
+	   dkp = dKp;
+	   dki = dKi;
+	   dkd = dKd;
+	}
+	
+
+	double rkp = 1, rki = 1, rkd = 1;
+	
+	long lastTimeRotation;
+	
+	double errSumRotation, lastErrRotation;
+	double lastTargetRotation;
+	/**
+	 * This is in degrees
+	 */
+	void rotateTo(double degrees){
+
+		   /*How long since we last calculated*/
+		   long now = System.currentTimeMillis();
+		   double timeChange = (double)(now - lastTime);
+		  
+		   double gyroReading = gyro.getAngle();
+		   /*Compute all the working error variables*/
+		   double error = degrees - gyroReading;
+		   double Err = 0;
+		   if(lastTargetRotation == gyroReading){
+			   errSumRotation += (error * timeChange);
+			   Err = (error - lastErrRotation) / timeChange;
+		   }
+		   else{
+			   errSumRotation = 0;
+		   }
+		  
+		   /*Compute PID Output*/
+		   double output = rkp * error + rki * errSumRotation + rkd * Err;
+		  
+		   /*Remember some variables for next time*/
+		   lastErrRotation = error;
+		   lastTimeRotation = now;
+		   
+		   tankDrive(output, output * -1);
 	}
 	
 	public void tankDrive(double leftSpeed, double rightSpeed){
