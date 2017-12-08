@@ -1,15 +1,15 @@
 package org.usfirst.frc.team2500.robot;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Victor;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 public class Chassis {
 
 	private Encoder leftSideEndoder;
 	private Encoder rightSideEndoder;
 	
-	private Gyro gyro;
+	private ADXRS450_Gyro gyro;
 
 	private Victor leftSideMotor1;
 	private Victor leftSideMotor2;
@@ -30,6 +30,8 @@ public class Chassis {
 
 		leftSideEndoder = new Encoder(0,1);
 		rightSideEndoder = new Encoder(2,3);
+		
+		gyro = new ADXRS450_Gyro();
 	}
 	
 	/**
@@ -148,13 +150,12 @@ public class Chassis {
 		   tankDrive(outputLeft, outputRight);
 	}
 	  
-	void setDistanceK(double dKp, double dKi, double dKd)
+	public void setDistanceK(double dKp, double dKi, double dKd)
 	{
 	   dkp = dKp;
 	   dki = dKi;
 	   dkd = dKd;
 	}
-	
 
 	double rkp = 1, rki = 1, rkd = 1;
 	
@@ -165,7 +166,7 @@ public class Chassis {
 	/**
 	 * This is in degrees
 	 */
-	void rotateTo(double degrees){
+	public void rotateTo(double degrees){
 
 		   /*How long since we last calculated*/
 		   long now = System.currentTimeMillis();
@@ -191,6 +192,13 @@ public class Chassis {
 		   lastTimeRotation = now;
 		   
 		   tankDrive(output, output * -1);
+	}
+	  
+	public void setRotationK(double rKp, double rKi, double rKd)
+	{
+	   rkp = rKp;
+	   rki = rKi;
+	   rkd = rKd;
 	}
 	
 	public void tankDrive(double leftSpeed, double rightSpeed){
