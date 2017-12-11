@@ -6,171 +6,136 @@ import edu.wpi.first.wpilibj.Victor;
 
 public class Chassis {
 
-	private Encoder leftSideEndoder;
-	private Encoder rightSideEndoder;
+	private static final int LEFT_ENCODER_PORT1 = 0;
+	private static final int LEFT_ENCODER_PORT2 = 1;
 	
-	private ADXRS450_Gyro gyro;
-
-	private Victor leftSideMotor1;
-	private Victor leftSideMotor2;
-	private Victor leftSideMotor3;
-
-	private Victor rightSideMotor1;
-	private Victor rightSideMotor2;
-	private Victor rightSideMotor3;
+	private static final int RIGHT_ENCODER_PORT1 = 0;
+	private static final int RIGHT_ENCODER_PORT2 = 1;
 	
-	public Chassis(){
-		leftSideMotor1 = new Victor(0);
-		leftSideMotor2 = new Victor(1);
-		leftSideMotor3 = new Victor(2);
+	private static Encoder leftSideEndoder, rightSideEndoder;
+	
+	private static ADXRS450_Gyro gyro;
 
-		rightSideMotor1 = new Victor(3);
-		rightSideMotor2 = new Victor(4);
-		rightSideMotor3 = new Victor(5);
+	private static final int LEFT_MOTOR_PORT1 = 0;
+	private static final int LEFT_MOTOR_PORT2 = 1;
+	private static final int LEFT_MOTOR_PORT3 = 2;
 
-		leftSideEndoder = new Encoder(0,1);
-		rightSideEndoder = new Encoder(2,3);
+	private static final int RIGHT_MOTOR_PORT1 = 3;
+	private static final int RIGHT_MOTOR_PORT2 = 4;
+	private static final int RIGHT_MOTOR_PORT3 = 5;
+
+	private static Victor leftSideMotor1,leftSideMotor2,leftSideMotor3;
+
+	private static Victor rightSideMotor1,rightSideMotor2,rightSideMotor3;
+	
+	public static void initialize(){
+		
+		leftSideMotor1 = new Victor(LEFT_MOTOR_PORT1);
+		leftSideMotor2 = new Victor(LEFT_MOTOR_PORT2);
+		leftSideMotor3 = new Victor(LEFT_MOTOR_PORT3);
+
+		rightSideMotor1 = new Victor(RIGHT_MOTOR_PORT1);
+		rightSideMotor2 = new Victor(RIGHT_MOTOR_PORT2);
+		rightSideMotor3 = new Victor(RIGHT_MOTOR_PORT3);
+
+		leftSideEndoder = new Encoder(LEFT_ENCODER_PORT1,LEFT_ENCODER_PORT2);
+		rightSideEndoder = new Encoder(RIGHT_ENCODER_PORT1,RIGHT_ENCODER_PORT2);
 		
 		gyro = new ADXRS450_Gyro();
 	}
-	
-	/**
-	 * 
-	 * @param l1 left motor 1
-	 * @param l2 left motor 1
-	 * @param l3 left motor 1
-	 * @param r1 right motor 1
-	 * @param r2 right motor 1
-	 * @param r3 right motor 1
-	 */
-	public void setMotors(int l1,int l2,int l3,int r1,int r2,int r3){
-		leftSideMotor1 = new Victor(l1);
-		leftSideMotor2 = new Victor(l2);
-		leftSideMotor3 = new Victor(l3);
+
+	// call to change the power given to the motor
+	public static void ChangePower(double powerL,double powerR){
+		leftSideMotor1.set(powerL);
+		leftSideMotor2.set(powerL);
+		leftSideMotor3.set(powerL);
 		
-		rightSideMotor1 = new Victor(r1);
-		rightSideMotor2 = new Victor(r2);
-		rightSideMotor3 = new Victor(r3);
+		rightSideMotor1.set(powerR);
+		rightSideMotor2.set(powerR);
+		rightSideMotor3.set(powerR);
 	}
-	
-	/**
-	 * 
-	 * @param l1 first port for the left endoder
-	 * @param l2 second port for the left endoder
-	 * @param r1 first port for the right endoder
-	 * @param r2 second port for the right endoder
-	 */
-	public void setEncoders(int l1,int l2,int r1,int r2){
-		leftSideEndoder = new Encoder(l1,l2);
-		rightSideEndoder = new Encoder(r1,r2);
+
+	public void arcadeDrive(double turnValue, double moveValue){
+		//This is the speed we want the left and the right wheels to go at when this fun
+	    double leftTargetSpeed = 0.0;
+	    double rightTargetSpeed = 0.0;
+	    
+	    //Math to convert the forword and  rotaion to left and right
+	    if (turnValue > 0.0) {
+	        if (moveValue > 0.0) {
+	          leftTargetSpeed = turnValue - moveValue;
+	          rightTargetSpeed = Math.max(turnValue, moveValue);
+	        } else {
+	          leftTargetSpeed = Math.max(turnValue, -moveValue);
+	          rightTargetSpeed = turnValue + moveValue;
+	        }
+	      } else {
+	        if (moveValue > 0.0) {
+	          leftTargetSpeed = -Math.max(-turnValue, moveValue);
+	          rightTargetSpeed = turnValue + moveValue;
+	        } else {
+	          leftTargetSpeed = turnValue - moveValue;
+	          rightTargetSpeed = -Math.max(-turnValue, -moveValue);
+	        }
+	    }
+	    
+	    ChangePower(leftTargetSpeed, rightTargetSpeed);
 	}
-	
-	
 	
 	/*working variables*/
-	long lastTime;
-	double dkp = 1, dki = 1, dkd = 1;
-	
-	double errSum, lastErr;
-	double lastTarget;
-	public void driveDist(double dist)
+	private static long lastTime;
+	private static double kp = 1, ki = 1, kd = 1;
+
+	private static double errSumLeft, lastErrLeft;
+	private static double errSumRight, lastErrRight;
+	public static void ChangeSpeed(double rate)
 	{
-	   /*How long since we last calculated*/
-	   long now = System.currentTimeMillis();
-	   double timeChange = (double)(now - lastTime);
+		/*How long since we last calculated*/
+		long now = System.currentTimeMillis();
+		double timeChange = (double)(now - lastTime);
 	  
-	   double eCodeReading = (leftSideEndoder.getDistance() + rightSideEndoder.getDistance())/2;
-	   /*Compute all the working error variables*/
-	   double error = dist - eCodeReading;
-	   double dErr = 0;
-	   if(lastTarget == dist){
-		   errSum += (error * timeChange);
-		   dErr = (error - lastErr) / timeChange;
-	   }
-	   else{
-		   errSum = 0;
-	   }
+	   	double eCodeReading = leftSideEndoder.getRate();
+	   	/*Compute all the working error variables*/
+	   	double error = rate - eCodeReading;
+	   	double dErr = 0;
+		errSumLeft += (error * timeChange);
+		dErr = (error - lastErrLeft) / timeChange;
+		
+		lastErrLeft = error;
 	  
-	   /*Compute PID Output*/
-	   double output = dkp * error + dki * errSum + dkd * dErr;
-	  
-	   /*Remember some variables for next time*/
-	   lastErr = error;
-	   lastTime = now;
+		/*Compute PID Output*/
+		double leftPower = kp * error + ki * errSumLeft + kd * dErr;
 	   
-	   tankDrive(output, output);
-	}
-
-	double errSumLeft, errSumRight, lastErrLeft, lastErrRight;
-	double lastTargetLeft, lastTargetRight;
-	public void driveDist(double rightDist, double leftDist){
-		   /*How long since we last calculated*/
-		   long now = System.currentTimeMillis();
-		   double timeChange = (double)(now - lastTime);
-		  
-		   double eCodeReading = leftSideEndoder.getDistance();
-		   /*Compute all the working error variables*/
-		   double error = leftDist - eCodeReading;
-		   double dErr = 0;
-		   if(lastTargetLeft == leftDist){
-			   errSumLeft += (error * timeChange);
-			   dErr = (error - lastErrLeft) / timeChange;
-		   }
-		   else{
-			   errSumLeft = 0;
-		   }
-		  
-		   /*Compute PID Output*/
-		   double outputLeft = dkp * error + dki * errSumLeft + dkd * dErr;
-		  
-		   /*Remember some variables for next time*/
-		   lastErrLeft = error;
-
-		   eCodeReading = rightSideEndoder.getDistance();
-		   /*Compute all the working error variables*/
-		   error = rightDist - eCodeReading;
-		   dErr = 0;
-		   if(lastTargetRight == rightDist){
-			   errSumRight += (error * timeChange);
-			   dErr = (error - lastErrRight) / timeChange;
-		   }
-		   else{
-			   errSumRight = 0;
-		   }
-		  
-		   /*Compute PID Output*/
-		   double outputRight = dkp * error + dki * errSumRight + dkd * dErr;
-		  
-		   /*Remember some variables for next time*/
-		   lastErrRight = error;
-		   
-		   
-		   lastTime = now;
-		   
-		   tankDrive(outputLeft, outputRight);
-	}
+		eCodeReading = rightSideEndoder.getRate();
+		/*Compute all the working error variables*/
+		error = rate - eCodeReading;
+		dErr = 0;
+		errSumRight += (error * timeChange);
+		dErr = (error - lastErrRight) / timeChange;
 	  
-	public void setDistanceK(double dKp, double dKi, double dKd)
-	{
-	   dkp = dKp;
-	   dki = dKi;
-	   dkd = dKd;
-	}
+		/*Remember some variables for next time*/
+		lastErrRight = error;
+		lastTime = now;
 
-	double rkp = 1, rki = 1, rkd = 1;
+		double rightPower = kp * error + ki * errSumRight + kd * dErr;
+	   
+	   ChangePower(leftPower, rightPower);
+	}
 	
-	long lastTimeRotation;
+	private static double rkp = 1, rki = 1, rkd = 1;
 	
-	double errSumRotation, lastErrRotation;
-	double lastTargetRotation;
+	private static long lastTimeRotation;
+	
+	private static double errSumRotation, lastErrRotation;
+	private static double lastTargetRotation;
 	/**
 	 * This is in degrees
 	 */
-	public void rotateTo(double degrees){
+	public static void rotateTo(double degrees){
 
 		   /*How long since we last calculated*/
 		   long now = System.currentTimeMillis();
-		   double timeChange = (double)(now - lastTime);
+		   double timeChange = (double)(now - lastTimeRotation);
 		  
 		   double gyroReading = gyro.getAngle();
 		   /*Compute all the working error variables*/
@@ -191,7 +156,7 @@ public class Chassis {
 		   lastErrRotation = error;
 		   lastTimeRotation = now;
 		   
-		   tankDrive(output, output * -1);
+		   ChangePower(output, output * -1);
 	}
 	  
 	public void setRotationK(double rKp, double rKi, double rKd)
@@ -199,15 +164,5 @@ public class Chassis {
 	   rkp = rKp;
 	   rki = rKi;
 	   rkd = rKd;
-	}
-	
-	public void tankDrive(double leftSpeed, double rightSpeed){
-		leftSideMotor1.set(leftSpeed);
-		leftSideMotor2.set(leftSpeed);
-		leftSideMotor3.set(leftSpeed);
-
-		rightSideMotor1.set(rightSpeed);
-		rightSideMotor2.set(rightSpeed);
-		rightSideMotor3.set(rightSpeed);
 	}
 }

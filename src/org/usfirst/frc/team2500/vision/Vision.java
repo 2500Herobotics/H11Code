@@ -1,4 +1,4 @@
-package vision;
+package org.usfirst.frc.team2500.vision;
 
 import java.util.ArrayList;
 

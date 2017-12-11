@@ -7,7 +7,7 @@ import org.usfirst.frc.team2500.robot.Main;
 import edu.wpi.first.wpilibj.command.Command;
 
 
-public class rotationTeleop extends Command {
+public class basicTeleop extends Command {
 	/**
      * This function is run once each time the robot enters teleop mode
      */	
@@ -19,19 +19,9 @@ public class rotationTeleop extends Command {
      * This function is called periodically during teleop
      */
     public void execute() {
-    	double x = Controller.Pilot_Steering();
-    	double y = Controller.Pilot_Throttle();
-    	double degree = Math.atan(y/x);
-    	if(x <= 0 && y > 0){
-    		degree += (Math.PI/2);
-    	}
-    	else if(x < 0 && y <= 0){
-    		degree += Math.PI;
-    	}
-    	else if(x >= 0 && y < 0){
-    		degree += (Math.PI/2 * 3);
-    	}
-    	Chassis.rotateTo(Math.toDegrees(degree));
+    	double turnValue = Controller.Pilot_Steering();
+    	double moveValue = Controller.Pilot_Throttle();
+    	Chassis.ChangePower(turnValue, moveValue);
     }
     
     /**

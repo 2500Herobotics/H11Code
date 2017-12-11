@@ -22,11 +22,6 @@ import org.usfirst.frc.team2500.teleops.rotationTeleop;
  * directory.
  */
 public class Main extends IterativeRobot {
-	
-	public static Robot robot;
-
-	public static Joystick driver1;
-	public static Joystick driver2;
 
 	Command autonomousCommand;
 	SendableChooser<Command> autonomousChooser = new SendableChooser<>();
@@ -41,9 +36,9 @@ public class Main extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		
-		robot = new Robot();
-		driver1 = new Joystick(0);
-		driver1 = new Joystick(1);
+		Controller.initialize();
+
+		Chassis.initialize();
 		
 		autonomousChooser.addDefault("Default Auto", new Auto1());
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -85,13 +80,6 @@ public class Main extends IterativeRobot {
 	public void autonomousInit() {
 		autonomousCommand = autonomousChooser.getSelected();
 
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
@@ -115,13 +103,6 @@ public class Main extends IterativeRobot {
 			autonomousCommand.cancel();
 
 		teleopCommand = teleopChooser.getSelected();
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
 
 		// schedule the autonomous command (example)
 		if (teleopCommand != null)
