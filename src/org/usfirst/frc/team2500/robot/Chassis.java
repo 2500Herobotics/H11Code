@@ -165,4 +165,20 @@ public class Chassis {
 	   rki = rKi;
 	   rkd = rKd;
 	}
+	
+	public static double getLeftRate(){
+		return leftSideEndoder.getRate();
+	}
+	
+	public static double getLeftDist(){
+		return leftSideEndoder.getDistance();
+	}
+	
+	public static double getRightRate(){
+		return rightSideEndoder.getRate();
+	}
+	
+	public static double getRightDist(){
+		return rightSideEndoder.getDistance();
+	}
 }

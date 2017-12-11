@@ -14,7 +14,7 @@ public class competitionTeleop extends Command {
     public void initialize() {
     	
     }
-
+    
     /**
      * This function is called periodically during teleop
      */

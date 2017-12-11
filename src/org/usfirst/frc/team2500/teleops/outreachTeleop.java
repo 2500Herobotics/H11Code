@@ -18,8 +18,8 @@ public class outreachTeleop extends Command {
      * This function is called periodically during teleop
      */
     public void execute() {
-    	double turnValue = Controller.Pilot_Steering();
-    	double moveValue = Controller.Pilot_Throttle();
+    	double turnValue = Controller.Pilot_Steering() * 0.5;
+    	double moveValue = Controller.Pilot_Throttle() * 0.5;
     	Chassis.ChangePower(turnValue, moveValue);
     }
     

@@ -114,6 +114,7 @@ public class Main extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		Controller.Toggle_Buttons();
 		Scheduler.getInstance().run();
 	}
 
