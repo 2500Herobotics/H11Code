@@ -1,7 +1,7 @@
 package org.usfirst.frc.team2500.teleops;
 
+import org.usfirst.frc.team2500.driverStation.Controller;
 import org.usfirst.frc.team2500.robot.Chassis;
-import org.usfirst.frc.team2500.robot.Controller;
 
 import edu.wpi.first.wpilibj.command.Command;
 

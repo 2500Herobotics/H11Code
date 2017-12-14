@@ -82,42 +82,80 @@ public class Chassis {
 	    ChangePower(leftTargetSpeed, rightTargetSpeed);
 	}
 	
-	/*working variables*/
-	private static long lastTime;
-	private static double kp = 1, ki = 1, kd = 1;
+	private static long lastTimeSpeed;
+	private static double skp = 1, ski = 1, skd = 1;
 
-	private static double errSumLeft, lastErrLeft;
-	private static double errSumRight, lastErrRight;
+	private static double errSumLeftSpeed, lastErrLeftSpeed;
+	private static double errSumRightSpeed, lastErrRightSpeed;
 	public static void ChangeSpeed(double rate)
 	{
 		/*How long since we last calculated*/
 		long now = System.currentTimeMillis();
-		double timeChange = (double)(now - lastTime);
+		double timeChange = (double)(now - lastTimeSpeed);
 	  
 	   	double eCodeReading = leftSideEndoder.getRate();
 	   	/*Compute all the working error variables*/
 	   	double error = rate - eCodeReading;
 	   	double dErr = 0;
-		errSumLeft += (error * timeChange);
-		dErr = (error - lastErrLeft) / timeChange;
+		errSumLeftSpeed += (error * timeChange);
+		dErr = (error - lastErrLeftSpeed) / timeChange;
 		
-		lastErrLeft = error;
+		lastErrLeftSpeed = error;
 	  
 		/*Compute PID Output*/
-		double leftPower = kp * error + ki * errSumLeft + kd * dErr;
+		double leftPower = skp * error + ski * errSumLeftSpeed + skd * dErr;
 	   
 		eCodeReading = rightSideEndoder.getRate();
 		/*Compute all the working error variables*/
 		error = rate - eCodeReading;
 		dErr = 0;
-		errSumRight += (error * timeChange);
-		dErr = (error - lastErrRight) / timeChange;
+		errSumRightSpeed += (error * timeChange);
+		dErr = (error - lastErrRightSpeed) / timeChange;
 	  
 		/*Remember some variables for next time*/
-		lastErrRight = error;
-		lastTime = now;
+		lastErrRightSpeed = error;
+		lastTimeSpeed = now;
 
-		double rightPower = kp * error + ki * errSumRight + kd * dErr;
+		double rightPower = skp * error + ski * errSumRightSpeed + skd * dErr;
+	   
+	   ChangePower(leftPower, rightPower);
+	}
+	
+	private static long lastTimeDistance;
+	private static double dkp = 1, dki = 1, dkd = 1;
+
+	private static double errSumLeftDistance, lastErrLeftDistance;
+	private static double errSumRightDistance, lastErrRightDistance;
+	public static void MoveTo(double leftDistance,double rightDistance)
+	{
+		/*How long since we last calculated*/
+		long now = System.currentTimeMillis();
+		double timeChange = (double)(now - lastTimeDistance);
+	  
+	   	double eCodeReading = leftSideEndoder.getRate();
+	   	/*Compute all the working error variables*/
+	   	double error = leftDistance - eCodeReading;
+	   	double dErr = 0;
+		errSumLeftDistance += (error * timeChange);
+		dErr = (error - lastErrLeftDistance) / timeChange;
+		
+		lastErrLeftDistance = error;
+	  
+		/*Compute PID Output*/
+		double leftPower = dkp * error + dki * errSumLeftDistance + dkd * dErr;
+	   
+		eCodeReading = rightSideEndoder.getRate();
+		/*Compute all the working error variables*/
+		error = rightDistance - eCodeReading;
+		dErr = 0;
+		errSumRightDistance += (error * timeChange);
+		dErr = (error - lastErrRightDistance) / timeChange;
+	  
+		/*Remember some variables for next time*/
+		lastErrRightDistance = error;
+		lastTimeDistance = now;
+
+		double rightPower = dkp * error + dki * errSumRightDistance + dkd * dErr;
 	   
 	   ChangePower(leftPower, rightPower);
 	}
@@ -180,5 +218,10 @@ public class Chassis {
 	
 	public static double getRightDist(){
 		return rightSideEndoder.getDistance();
+	}
+	
+	public static void resetEncoders(){
+		leftSideEndoder.reset();
+		rightSideEndoder.reset();
 	}
 }

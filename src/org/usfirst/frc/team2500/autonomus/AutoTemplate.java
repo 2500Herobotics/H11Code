@@ -3,19 +3,27 @@ package org.usfirst.frc.team2500.autonomus;
 import edu.wpi.first.wpilibj.command.Command;
 
 
-public class Auto1 extends Command {
+public class AutoTemplate extends Command {
+	int stage;
 	/**
      * This function is run once each time the robot enters autonomous mode
      */	
     public void initialize() {
-    	
+    	stage = 0;
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void execute() {
-    	
+    	switch(stage){
+    	case 0:
+    		
+    		break;
+    	case 1:
+    		
+    		break;
+    	}
     }
     
     /**

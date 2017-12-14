@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2500.robot;
+package org.usfirst.frc.team2500.driverStation;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -58,19 +58,19 @@ public class Controller {
     }
 
     public static double Pilot_Throttle (){
-    	return handleDeadband(pilot.getRawAxis(0),0.1);
+    	return handleDeadband(pilot.getRawAxis(GamePad.Axis.LEFT_Y),0.1);
     }
 
     public static double Pilot_Steering (){
-    	return handleDeadband(pilot.getRawAxis(1),0.1);
+    	return handleDeadband(pilot.getRawAxis(GamePad.Axis.LEFT_X),0.1);
     }
 
     public static double CoPilot_Throttle (){
-    	return handleDeadband(coPilot.getRawAxis(0),0.1);
+    	return handleDeadband(coPilot.getRawAxis(GamePad.Axis.LEFT_Y),0.1);
     }
 
     public static double CoPilot_Steering (){
-    	return handleDeadband(coPilot.getRawAxis(1),0.1);
+    	return handleDeadband(coPilot.getRawAxis(GamePad.Axis.LEFT_X),0.1);
     }
 
 	private static Boolean[] pilot_Last_Buttons;
@@ -81,16 +81,16 @@ public class Controller {
     	for(int i = 0; i < BUTTON_COUNT; i++){
     		pilot_Current_Buttons[i] = pilot.getRawButton(i);
     	}
-    	Boolean[] coPilot_Current_Buttons = new Boolean[BUTTON_COUNT];
-    	for(int i = 0; i < BUTTON_COUNT; i++){
-    		coPilot_Current_Buttons[i] = coPilot.getRawButton(i);
-    	}
-    	
 		for(int i = 0; i < BUTTON_COUNT; i++){
 			if(pilot_Current_Buttons != pilot_Last_Buttons){
 				pilot_Last_Buttons[i] = !pilot_Last_Buttons[i];
 			}
-    	}    	
+    	}
+		
+    	Boolean[] coPilot_Current_Buttons = new Boolean[BUTTON_COUNT];
+    	for(int i = 0; i < BUTTON_COUNT; i++){
+    		coPilot_Current_Buttons[i] = coPilot.getRawButton(i);
+    	}
 		for(int i = 0; i < BUTTON_COUNT; i++){
 			if(coPilot_Current_Buttons != coPilot_Last_Buttons){
 				pilot_Last_Buttons[i] = !pilot_Last_Buttons[i];
