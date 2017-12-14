@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2500.driverStation;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class Controller {
 
@@ -58,21 +59,29 @@ public class Controller {
     }
 
     public static double Pilot_Throttle (){
-    	return handleDeadband(pilot.getRawAxis(GamePad.Axis.LEFT_Y),0.1);
+    	double value = handleDeadband(pilot.getRawAxis(GamePad.Axis.LEFT_Y),0.1);
+    	NetworkTable.getTable("SmartDashboard").putNumber("pilotThrottle",value);
+    	return value;
     }
-
+    
     public static double Pilot_Steering (){
-    	return handleDeadband(pilot.getRawAxis(GamePad.Axis.LEFT_X),0.1);
+    	double value = handleDeadband(pilot.getRawAxis(GamePad.Axis.RIGHT_X),0.1);
+    	NetworkTable.getTable("SmartDashboard").putNumber("pilotSteering",value);
+    	return value;
     }
-
+    
     public static double CoPilot_Throttle (){
-    	return handleDeadband(coPilot.getRawAxis(GamePad.Axis.LEFT_Y),0.1);
+    	double value = handleDeadband(coPilot.getRawAxis(GamePad.Axis.LEFT_Y),0.1);
+    	NetworkTable.getTable("SmartDashboard").putNumber("coPilotThrottle",value);
+    	return value;
     }
-
+    
     public static double CoPilot_Steering (){
-    	return handleDeadband(coPilot.getRawAxis(GamePad.Axis.LEFT_X),0.1);
+    	double value = handleDeadband(coPilot.getRawAxis(GamePad.Axis.RIGHT_X),0.1);
+    	NetworkTable.getTable("SmartDashboard").putNumber("coPilotSteering",value);
+    	return value;
     }
-
+    
 	private static Boolean[] pilot_Last_Buttons;
 	private static Boolean[] coPilot_Last_Buttons;
     

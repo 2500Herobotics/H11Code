@@ -97,7 +97,7 @@ public class Main extends IterativeRobot {
 			autonomousCommand.start();
 		}
 		else{
-			System.out.println("Something went wrong is starting auto");
+			System.out.println("Something went wrong in starting auto");
 		}
 	}
 	
