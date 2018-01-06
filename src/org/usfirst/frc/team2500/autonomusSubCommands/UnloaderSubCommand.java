@@ -17,19 +17,14 @@ public class UnloaderSubCommand implements AutoSubCommand {
 	}
 	
 	public boolean run(){
-		if(side){
-			if(currentCommand == commands.length){
-				return true;
-			}
-			if(commands[currentCommand].run()){
-				currentCommand++;
-			}
+		if(!side){
+			return true;
 		}
-		else{
-			//Just drive to bace line if we are on the wrong side of the switch
-			if(commands[0].run()){
-				return true;
-			}
+		if(currentCommand == commands.length){
+			return true;
+		}
+		if(commands[currentCommand].run()){
+			currentCommand++;
 		}
 		return false;
 	}
