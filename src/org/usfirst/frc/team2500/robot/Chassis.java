@@ -2,6 +2,7 @@ package org.usfirst.frc.team2500.robot;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 
 public class Chassis {
@@ -28,7 +29,21 @@ public class Chassis {
 
 	private static Victor rightSideMotor1,rightSideMotor2,rightSideMotor3;
 	
+	private static final int SHIFTER_PORT = 0;
+	
+	private static Solenoid shifter;
+	
+	private static final double MAX_HIGH_GEAR_SPEED = 0;
+	private static final double MAX_LOW_GEAR_SPEED = 0;
+	
+	private static double maxSpeed;
+	
 	public static void initialize(){
+
+		leftSideEndoder = new Encoder(LEFT_ENCODER_PORT1,LEFT_ENCODER_PORT2);
+		rightSideEndoder = new Encoder(RIGHT_ENCODER_PORT1,RIGHT_ENCODER_PORT2);
+		
+		gyro = new ADXRS450_Gyro();
 		
 		leftSideMotor1 = new Victor(LEFT_MOTOR_PORT1);
 		leftSideMotor2 = new Victor(LEFT_MOTOR_PORT2);
@@ -37,11 +52,10 @@ public class Chassis {
 		rightSideMotor1 = new Victor(RIGHT_MOTOR_PORT1);
 		rightSideMotor2 = new Victor(RIGHT_MOTOR_PORT2);
 		rightSideMotor3 = new Victor(RIGHT_MOTOR_PORT3);
-
-		leftSideEndoder = new Encoder(LEFT_ENCODER_PORT1,LEFT_ENCODER_PORT2);
-		rightSideEndoder = new Encoder(RIGHT_ENCODER_PORT1,RIGHT_ENCODER_PORT2);
 		
-		gyro = new ADXRS450_Gyro();
+		shifter = new Solenoid(SHIFTER_PORT);
+		
+		maxSpeed = MAX_LOW_GEAR_SPEED;
 	}
 
 	// call to change the power given to the motor
@@ -54,7 +68,12 @@ public class Chassis {
 		rightSideMotor2.set(powerR);
 		rightSideMotor3.set(powerR);
 	}
-
+	
+	public static void shift(boolean setShift){
+		shifter.set(setShift);
+		maxSpeed = (setShift)? MAX_LOW_GEAR_SPEED : MAX_HIGH_GEAR_SPEED;
+	}
+	
 	public void arcadeDrive(double turnValue, double moveValue){
 		//This is the speed we want the left and the right wheels to go at when this fun
 	    double leftTargetSpeed = 0.0;
@@ -87,7 +106,7 @@ public class Chassis {
 
 	private static double errSumLeftSpeed, lastErrLeftSpeed;
 	private static double errSumRightSpeed, lastErrRightSpeed;
-	public static void ChangeSpeed(double rate)
+	public static void ChangeSpeed(double leftSpeed, double rightSpeed)
 	{
 		/*How long since we last calculated*/
 		long now = System.currentTimeMillis();
@@ -95,7 +114,7 @@ public class Chassis {
 	  
 	   	double eCodeReading = leftSideEndoder.getRate();
 	   	/*Compute all the working error variables*/
-	   	double error = rate - eCodeReading;
+	   	double error = getSpeedError(eCodeReading,leftSpeed);
 	   	double dErr = 0;
 		errSumLeftSpeed += (error * timeChange);
 		dErr = (error - lastErrLeftSpeed) / timeChange;
@@ -107,7 +126,7 @@ public class Chassis {
 	   
 		eCodeReading = rightSideEndoder.getRate();
 		/*Compute all the working error variables*/
-		error = rate - eCodeReading;
+		error = getSpeedError(eCodeReading,rightSpeed);
 		dErr = 0;
 		errSumRightSpeed += (error * timeChange);
 		dErr = (error - lastErrRightSpeed) / timeChange;
@@ -121,103 +140,28 @@ public class Chassis {
 	   ChangePower(leftPower, rightPower);
 	}
 	
-	private static long lastTimeDistance;
-	private static double dkp = 1, dki = 1, dkd = 1;
-
-	private static double errSumLeftDistance, lastErrLeftDistance;
-	private static double errSumRightDistance, lastErrRightDistance;
-	public static void MoveTo(double leftDistance,double rightDistance)
-	{
-		/*How long since we last calculated*/
-		long now = System.currentTimeMillis();
-		double timeChange = (double)(now - lastTimeDistance);
-	  
-	   	double eCodeReading = leftSideEndoder.getRate();
-	   	/*Compute all the working error variables*/
-	   	double error = leftDistance - eCodeReading;
-	   	double dErr = 0;
-		errSumLeftDistance += (error * timeChange);
-		dErr = (error - lastErrLeftDistance) / timeChange;
-		
-		lastErrLeftDistance = error;
-	  
-		/*Compute PID Output*/
-		double leftPower = dkp * error + dki * errSumLeftDistance + dkd * dErr;
-	   
-		eCodeReading = rightSideEndoder.getRate();
-		/*Compute all the working error variables*/
-		error = rightDistance - eCodeReading;
-		dErr = 0;
-		errSumRightDistance += (error * timeChange);
-		dErr = (error - lastErrRightDistance) / timeChange;
-	  
-		/*Remember some variables for next time*/
-		lastErrRightDistance = error;
-		lastTimeDistance = now;
-
-		double rightPower = dkp * error + dki * errSumRightDistance + dkd * dErr;
-	   
-	   ChangePower(leftPower, rightPower);
-	}
-	
-	private static double rkp = 1, rki = 1, rkd = 1;
-	
-	private static long lastTimeRotation;
-	
-	private static double errSumRotation, lastErrRotation;
-	private static double lastTargetRotation;
-	/**
-	 * This is in degrees
-	 */
-	public static void rotateTo(double degrees){
-
-		   /*How long since we last calculated*/
-		   long now = System.currentTimeMillis();
-		   double timeChange = (double)(now - lastTimeRotation);
-		  
-		   double gyroReading = gyro.getAngle();
-		   /*Compute all the working error variables*/
-		   double error = degrees - gyroReading;
-		   double Err = 0;
-		   if(lastTargetRotation == gyroReading){
-			   errSumRotation += (error * timeChange);
-			   Err = (error - lastErrRotation) / timeChange;
-		   }
-		   else{
-			   errSumRotation = 0;
-		   }
-		  
-		   /*Compute PID Output*/
-		   double output = rkp * error + rki * errSumRotation + rkd * Err;
-		  
-		   /*Remember some variables for next time*/
-		   lastErrRotation = error;
-		   lastTimeRotation = now;
-		   
-		   ChangePower(output, output * -1);
-	}
-	  
-	public void setRotationK(double rKp, double rKi, double rKd)
-	{
-	   rkp = rKp;
-	   rki = rKi;
-	   rkd = rKd;
+	private static double getSpeedError(double currentSpeed, double targetSpeed){
+		return (currentSpeed-(targetSpeed * maxSpeed))/maxSpeed;
 	}
 	
 	public static double getLeftRate(){
 		return leftSideEndoder.getRate();
 	}
 	
-	public static double getLeftDist(){
-		return leftSideEndoder.getDistance();
-	}
-	
 	public static double getRightRate(){
 		return rightSideEndoder.getRate();
 	}
 	
+	public static double getLeftDist(){
+		return leftSideEndoder.getDistance();
+	}
+	
 	public static double getRightDist(){
 		return rightSideEndoder.getDistance();
+	}
+	
+	public static double getAngle(){
+		return gyro.getAngle();
 	}
 	
 	public static void resetEncoders(){

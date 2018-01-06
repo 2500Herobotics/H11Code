@@ -14,8 +14,8 @@ import org.usfirst.frc.team2500.autonomus.AutoTemplate;
 import org.usfirst.frc.team2500.driverStation.Controller;
 import org.usfirst.frc.team2500.teleops.competitionTeleop;
 import org.usfirst.frc.team2500.teleops.outreachTeleop;
-import org.usfirst.frc.team2500.teleops.rotationTeleop;
 import org.usfirst.frc.team2500.robot.Chassis;
+import org.usfirst.frc.team2500.robot.Unloader;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -55,13 +55,14 @@ public class Main extends IterativeRobot {
 
 		Chassis.initialize();
 		
+		Unloader.initialize();
+		
 		autonomousChooser.addDefault("Default Auto", new AutoTemplate());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", autonomousChooser);
 		
 		teleopChooser.addDefault("Competition Auto", new competitionTeleop());
 		teleopChooser.addObject("My Auto", new outreachTeleop());
-		teleopChooser.addObject("My Auto", new rotationTeleop());
 		SmartDashboard.putData("Teleop Mode", teleopChooser);
 
 		camera1 = CameraServer.getInstance().startAutomaticCapture(0);

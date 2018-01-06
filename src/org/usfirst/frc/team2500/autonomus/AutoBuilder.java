@@ -21,7 +21,7 @@ public class AutoBuilder extends Command {
      * This function is called periodically during autonomous
      */
     public void execute() {
-    	Chassis.MoveTo(leftDistance,rightDistance);
+    	//Chassis.MoveTo(leftDistance,rightDistance);
     	
     	if(NetworkTable.getTable("SmartDashboard").getBoolean("AutoBuilderRun", false)){
     		Chassis.resetEncoders();
