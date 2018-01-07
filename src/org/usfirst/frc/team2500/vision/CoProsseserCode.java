@@ -3,7 +3,8 @@ package org.usfirst.frc.team2500.vision;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.wpi.first.wpilibj.networktables.*;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.cscore.*;
 
 import org.opencv.core.Core;
@@ -23,15 +24,6 @@ public class CoProsseserCode {
 	public static void main(String[] args) {
 	    // Loads our OpenCV library. This MUST be included
 	    System.loadLibrary("opencv_java310");
-	    
-	    // Connect NetworkTables, and get access to the publishing table
-	    NetworkTable.setClientMode();
-	    // Set your team number here
-	    NetworkTable.setTeam(2500);
-	    
-	    NetworkTable.initialize();
-	    
-	    table = NetworkTable.getTable("Vision");
 	    
 	    // This is the network port you want to stream the raw received image to
 	    // By rules, this has to be between 1180 and 1190, so 1185 is a good choice
@@ -72,7 +64,7 @@ public class CoProsseserCode {
 	    
 	    // Infinitely process image
 	    while (true) {
-	    	if(table.getBoolean("Vision_Prossesing", false)){
+	    	if(SmartDashboard.getBoolean("Vision_Prossesing", false)){
 			    // Grab a frame. If it has a frame time of 0, there was an error.
 			    // Just skip and continue
 			    long frameTime = imageSink.grabFrame(inputImage);
@@ -88,9 +80,9 @@ public class CoProsseserCode {
 				boolean findContoursExternalOnly = false;
 				findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
 	
-				filterContoursMinHeight = table.getNumber("Filter_Height", 1000.0);
-				filterContoursMaxWidth = table.getNumber("Filter_Width", 1000.0);
-				filterContoursMinArea = table.getNumber("Filter_Area", 1250.0);
+				filterContoursMinHeight = SmartDashboard.getNumber("Filter_Height", 1000.0);
+				filterContoursMaxWidth = SmartDashboard.getNumber("Filter_Width", 1000.0);
+				filterContoursMinArea = SmartDashboard.getNumber("Filter_Area", 1250.0);
 				
 				
 				// Step Filter_Contours0:
@@ -98,10 +90,10 @@ public class CoProsseserCode {
 				filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
 				
 				Rect target = getRect(filterContoursOutput);
-				table.putNumber("Centor_X", target.x + (target.width/2));
-				table.putNumber("Centor_Y", target.y + (target.height/2));
-				table.putNumber("Height", target.height);
-				table.putNumber("Width", target.height);
+				SmartDashboard.putNumber("Centor_X", target.x + (target.width/2));
+				SmartDashboard.putNumber("Centor_Y", target.y + (target.height/2));
+				SmartDashboard.putNumber("Height", target.height);
+				SmartDashboard.putNumber("Width", target.height);
 				
 				// Here is where you would write a processed image that you want to restreams
 				// This will most likely be a marked up image of what the camera sees

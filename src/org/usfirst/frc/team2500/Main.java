@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -43,13 +43,6 @@ public class Main extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		// Connect NetworkTables, and get access to the publishing table
-	    NetworkTable.setClientMode();
-	    // Set your team number here
-	    NetworkTable.setTeam(2500);
-	    
-		NetworkTable.initialize();
-		NetworkTable.setIPAddress("10.25.00.2");
 		
 		Controller.initialize();
 
