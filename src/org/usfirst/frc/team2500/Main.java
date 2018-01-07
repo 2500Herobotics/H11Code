@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2500;
 
+//wpi imports
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -9,11 +10,18 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team2500.autonomus.AutoTemplate;
-import org.usfirst.frc.team2500.driverStation.Controller;
+//auto imports
+import org.usfirst.frc.team2500.autonomus.AutoBaseLine;
+import org.usfirst.frc.team2500.autonomus.AutoBuilder;
+import org.usfirst.frc.team2500.autonomus.AutoCentor;
+import org.usfirst.frc.team2500.autonomus.AutoLeftSwitch;
+import org.usfirst.frc.team2500.autonomus.AutoRightSwitch;
+//teleop imports
 import org.usfirst.frc.team2500.teleops.competitionTeleop;
 import org.usfirst.frc.team2500.teleops.outreachTeleop;
+//driverstaion imports
+import org.usfirst.frc.team2500.driverStation.Controller;
+//mechinisums imports
 import org.usfirst.frc.team2500.robot.Chassis;
 import org.usfirst.frc.team2500.robot.Unloader;
 
@@ -50,12 +58,16 @@ public class Main extends IterativeRobot {
 		
 		Unloader.initialize();
 		
-		autonomousChooser.addDefault("Default Auto", new AutoTemplate());
-		// chooser.addObject("My Auto", new MyAutoCommand());
+		autonomousChooser.addDefault("Default Auto", new AutoBaseLine());
+		autonomousChooser.addObject("Base Line", new AutoBaseLine());
+		autonomousChooser.addObject("Auto Builder", new AutoBuilder());
+		autonomousChooser.addObject("Left Switch", new AutoLeftSwitch());
+		autonomousChooser.addObject("Centor", new AutoCentor());
+		autonomousChooser.addObject("Right Switch", new AutoRightSwitch());
 		SmartDashboard.putData("Auto mode", autonomousChooser);
 		
-		teleopChooser.addDefault("Competition Auto", new competitionTeleop());
-		teleopChooser.addObject("My Auto", new outreachTeleop());
+		teleopChooser.addDefault("Competition Teleop", new competitionTeleop());
+		teleopChooser.addObject("Outreach Teleop", new outreachTeleop());
 		SmartDashboard.putData("Teleop Mode", teleopChooser);
 
 		camera1 = CameraServer.getInstance().startAutomaticCapture(0);

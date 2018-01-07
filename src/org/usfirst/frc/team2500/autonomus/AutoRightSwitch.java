@@ -7,7 +7,7 @@ import org.usfirst.frc.team2500.autonomusSubCommands.UnloaderSubCommand;
 import edu.wpi.first.wpilibj.command.Command;
 
 
-public class AutoLeft extends Command {
+public class AutoRightSwitch extends Command {
 	
 	AutoSubCommand[] commands;
 	int currentCommand;
@@ -19,9 +19,9 @@ public class AutoLeft extends Command {
     public void initialize() {
 		commands = new AutoSubCommand[4];
 		commands[0] = new DriveSubCommand(1,1,0);
-		commands[1] = new DriveSubCommand(1,1,45);
+		commands[1] = new DriveSubCommand(1,1,315);
 		commands[2] = new DriveSubCommand(1,1,0);
-		commands[3] = new UnloaderSubCommand(90,1,true);
+		commands[3] = new UnloaderSubCommand(270,1,'R');
 		currentCommand = 0;
 		finished = false;
     }

@@ -2,6 +2,7 @@ package org.usfirst.frc.team2500.driverStation;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Controller {
 
@@ -63,25 +64,25 @@ public class Controller {
 
     public static double Pilot_Throttle (){
     	double value = handleDeadband(pilot.getRawAxis(GamePad.Axis.LEFT_Y),0.1);
-    	NetworkTable.getTable("SmartDashboard").putNumber("pilotThrottle",value);
+    	SmartDashboard.putNumber("pilotThrottle",value);
     	return value;
     }
     
     public static double Pilot_Steering (){
     	double value = handleDeadband(pilot.getRawAxis(GamePad.Axis.RIGHT_X),0.1);
-    	NetworkTable.getTable("SmartDashboard").putNumber("pilotSteering",value);
+    	SmartDashboard.putNumber("pilotSteering",value);
     	return value;
     }
     
     public static double CoPilot_Throttle (){
     	double value = handleDeadband(coPilot.getRawAxis(GamePad.Axis.LEFT_Y),0.1);
-    	NetworkTable.getTable("SmartDashboard").putNumber("coPilotThrottle",value);
+    	SmartDashboard.putNumber("coPilotThrottle",value);
     	return value;
     }
     
     public static double CoPilot_Steering (){
     	double value = handleDeadband(coPilot.getRawAxis(GamePad.Axis.RIGHT_X),0.1);
-    	NetworkTable.getTable("SmartDashboard").putNumber("coPilotSteering",value);
+    	SmartDashboard.putNumber("coPilotSteering",value);
     	return value;
     }
     
@@ -115,39 +116,39 @@ public class Controller {
 	}
 	
 	private static void createDriverstaion(){
-    	NetworkTable.getTable("SmartDashboard").putNumber("pilotThrottle",0);
-    	NetworkTable.getTable("SmartDashboard").putNumber("pilotSteering",0);
-    	NetworkTable.getTable("SmartDashboard").putNumber("coPilotThrottle",0);
-    	NetworkTable.getTable("SmartDashboard").putNumber("coPilotSteering",0);
+    	SmartDashboard.putNumber("pilotThrottle",0);
+    	SmartDashboard.putNumber("pilotSteering",0);
+    	SmartDashboard.putNumber("coPilotThrottle",0);
+    	SmartDashboard.putNumber("coPilotSteering",0);
 
-    	NetworkTable.getTable("SmartDashboard").putBoolean("CoPilotTakeOver",CoPilotTakeOver);
+    	SmartDashboard.putBoolean("CoPilotTakeOver",CoPilotTakeOver);
 
-    	NetworkTable.getTable("SmartDashboard").putBoolean("Pilot A",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("Pilot B",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("Pilot X",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("Pilot Y",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("Pilot LB",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("Pilot RB",false);
+    	SmartDashboard.putBoolean("Pilot A",false);
+    	SmartDashboard.putBoolean("Pilot B",false);
+    	SmartDashboard.putBoolean("Pilot X",false);
+    	SmartDashboard.putBoolean("Pilot Y",false);
+    	SmartDashboard.putBoolean("Pilot LB",false);
+    	SmartDashboard.putBoolean("Pilot RB",false);
 
-    	NetworkTable.getTable("SmartDashboard").putBoolean("Pilot A Toggled",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("Pilot B Toggled",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("Pilot X Toggled",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("Pilot Y Toggled",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("Pilot LB Toggled",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("Pilot RB Toggled",false);
+    	SmartDashboard.putBoolean("Pilot A Toggled",false);
+    	SmartDashboard.putBoolean("Pilot B Toggled",false);
+    	SmartDashboard.putBoolean("Pilot X Toggled",false);
+    	SmartDashboard.putBoolean("Pilot Y Toggled",false);
+    	SmartDashboard.putBoolean("Pilot LB Toggled",false);
+    	SmartDashboard.putBoolean("Pilot RB Toggled",false);
 
-    	NetworkTable.getTable("SmartDashboard").putBoolean("CoPilot A",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("CoPilot B",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("CoPilot X",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("CoPilot Y",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("CoPilot LB",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("CoPilot RB",false);
+    	SmartDashboard.putBoolean("CoPilot A",false);
+    	SmartDashboard.putBoolean("CoPilot B",false);
+    	SmartDashboard.putBoolean("CoPilot X",false);
+    	SmartDashboard.putBoolean("CoPilot Y",false);
+    	SmartDashboard.putBoolean("CoPilot LB",false);
+    	SmartDashboard.putBoolean("CoPilot RB",false);
 
-    	NetworkTable.getTable("SmartDashboard").putBoolean("CoPilot A Toggled",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("CoPilot B Toggled",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("CoPilot X Toggled",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("CoPilot Y Toggled",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("CoPilot LB Toggled",false);
-    	NetworkTable.getTable("SmartDashboard").putBoolean("CoPilot RB Toggled",false);
+    	SmartDashboard.putBoolean("CoPilot A Toggled",false);
+    	SmartDashboard.putBoolean("CoPilot B Toggled",false);
+    	SmartDashboard.putBoolean("CoPilot X Toggled",false);
+    	SmartDashboard.putBoolean("CoPilot Y Toggled",false);
+    	SmartDashboard.putBoolean("CoPilot LB Toggled",false);
+    	SmartDashboard.putBoolean("CoPilot RB Toggled",false);
 	}
 }
