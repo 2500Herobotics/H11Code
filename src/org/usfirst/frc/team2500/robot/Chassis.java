@@ -43,16 +43,19 @@ public class Chassis {
 
 		leftSideEndoder = new Encoder(LEFT_ENCODER_PORT1,LEFT_ENCODER_PORT2);
 		rightSideEndoder = new Encoder(RIGHT_ENCODER_PORT1,RIGHT_ENCODER_PORT2);
+		leftSideEndoder.setDistancePerPulse(1);
+		leftSideEndoder.reset();
+		rightSideEndoder.setDistancePerPulse(1);
+		rightSideEndoder.reset();
 		
 		gyro = new AHRS(SPI.Port.kMXP);
+		gyro.reset();
 		
 		leftSideMotor1 = new Victor(LEFT_MOTOR_PORT1);
 		leftSideMotor2 = new Victor(LEFT_MOTOR_PORT2);
-		//leftSideMotor3 = new Victor(LEFT_MOTOR_PORT3);
 
 		rightSideMotor1 = new Victor(RIGHT_MOTOR_PORT1);
 		rightSideMotor2 = new Victor(RIGHT_MOTOR_PORT2);
-		//rightSideMotor3 = new Victor(RIGHT_MOTOR_PORT3);
 		
 		shifter = new Solenoid(SHIFTER_PORT);
 		
