@@ -1,19 +1,8 @@
 package org.usfirst.frc.team2500.vision;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CoProsseserInteracion {
-	
-	private static NetworkTable table;
-	
-	public static void initialize(){
-		
-		//NetworkTableInstance.create();
-		//NetworkTable
-		//table = NetworkTable.getTable("GRIP/myContoursReport");
-	}
 	
 	public static double getCentorX(){
 		return SmartDashboard.getNumber("Centor_X", 960);

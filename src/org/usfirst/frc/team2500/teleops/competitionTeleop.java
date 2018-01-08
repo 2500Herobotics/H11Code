@@ -2,7 +2,6 @@ package org.usfirst.frc.team2500.teleops;
 
 import org.usfirst.frc.team2500.driverStation.Controller;
 import org.usfirst.frc.team2500.robot.Chassis;
-import org.usfirst.frc.team2500.Main;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -20,7 +19,9 @@ public class competitionTeleop extends Command {
      */
     public void execute() {
     	double turnValue = Controller.Pilot_Steering();
+    	System.out.println("turnValue:" + turnValue);
     	double moveValue = Controller.Pilot_Throttle();
+    	System.out.println("moveValue:" + moveValue);
     	Chassis.ChangePower(turnValue, moveValue);
     }
     
@@ -31,6 +32,6 @@ public class competitionTeleop extends Command {
      */
 	@Override
 	protected boolean isFinished() {
-		return true;
+		return false;
 	}
 }

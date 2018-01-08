@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2500;
+package org.usfirst.frc.team2500.robot;
 
 //wpi imports
 import edu.wpi.cscore.UsbCamera;
@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team2500.DataLogger;
 //auto imports
 import org.usfirst.frc.team2500.autonomus.AutoBaseLine;
 import org.usfirst.frc.team2500.autonomus.AutoCentor;
@@ -20,9 +21,6 @@ import org.usfirst.frc.team2500.teleops.competitionTeleop;
 import org.usfirst.frc.team2500.teleops.outreachTeleop;
 //driverstaion imports
 import org.usfirst.frc.team2500.driverStation.Controller;
-//mechinisums imports
-import org.usfirst.frc.team2500.robot.Chassis;
-import org.usfirst.frc.team2500.robot.Unloader;
 import org.usfirst.frc.team2500.systemTester.SystemTesterStartUp;
 
 /**
@@ -32,7 +30,7 @@ import org.usfirst.frc.team2500.systemTester.SystemTesterStartUp;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Main extends IterativeRobot {
+public class Robot extends IterativeRobot {
 
 	Command autonomousCommand;
 	SendableChooser<Command> autonomousChooser = new SendableChooser<>();
@@ -40,13 +38,11 @@ public class Main extends IterativeRobot {
 	Command teleopCommand;
 	SendableChooser<Command> teleopChooser = new SendableChooser<>();
 	
-	Command dataLogger;
+	//Command dataLogger;
 	
 	UsbCamera camera1;
 	UsbCamera camera2;
 	
-	//CustomCameraServer server;
-
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -60,7 +56,7 @@ public class Main extends IterativeRobot {
 		
 		Unloader.initialize();
 		
-		dataLogger = new DataLogger();
+		//dataLogger = new DataLogger();
 		
 		autonomousChooser.addDefault("Default Auto", new AutoBaseLine());
 		autonomousChooser.addObject("Base Line", new AutoBaseLine());
@@ -76,13 +72,8 @@ public class Main extends IterativeRobot {
 
 		camera1 = CameraServer.getInstance().startAutomaticCapture(0);
 		camera2 = CameraServer.getInstance().startAutomaticCapture(1);
-		//server = CameraServer.getInstance().GetServer();
 	}
 	
-	public void  robotPeriodic(){
-		
-	}
-
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
 	 * You can use it to reset any subsystem information you want to clear when
@@ -90,12 +81,7 @@ public class Main extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		DataLogger.closeFileWriter();
-	}
-
-	@Override
-	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
+//		DataLogger.closeFileWriter();
 	}
 	
 	@Override
@@ -110,9 +96,9 @@ public class Main extends IterativeRobot {
 			System.out.println("Something went wrong in starting auto");
 		}
 		
-		if (dataLogger != null){
-			dataLogger.start();
-		}
+//		if (dataLogger != null){
+//			dataLogger.start();
+//		}
 	}
 	
 	@Override
@@ -145,13 +131,5 @@ public class Main extends IterativeRobot {
 		Controller.Toggle_Buttons();
 		
 		Scheduler.getInstance().run();
-	}
-
-	/**
-	 * This function is called periodically during test mode
-	 */
-	@Override
-	public void testPeriodic() {
-		LiveWindow.run();
 	}
 }

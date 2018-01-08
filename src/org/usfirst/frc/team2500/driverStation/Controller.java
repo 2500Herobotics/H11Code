@@ -64,25 +64,25 @@ public class Controller {
 
     public static double Pilot_Throttle (){
     	double value = handleDeadband(pilot.getRawAxis(GamePad.Axis.LEFT_Y),0.1);
-    	SmartDashboard.putNumber("pilotThrottle",value);
+//    	SmartDashboard.putNumber("pilotThrottle",value);
     	return value;
     }
     
     public static double Pilot_Steering (){
     	double value = handleDeadband(pilot.getRawAxis(GamePad.Axis.RIGHT_X),0.1);
-    	SmartDashboard.putNumber("pilotSteering",value);
+//    	SmartDashboard.putNumber("pilotSteering",value);
     	return value;
     }
     
     public static double CoPilot_Throttle (){
     	double value = handleDeadband(coPilot.getRawAxis(GamePad.Axis.LEFT_Y),0.1);
-    	SmartDashboard.putNumber("coPilotThrottle",value);
+//    	SmartDashboard.putNumber("coPilotThrottle",value);
     	return value;
     }
     
     public static double CoPilot_Steering (){
     	double value = handleDeadband(coPilot.getRawAxis(GamePad.Axis.RIGHT_X),0.1);
-    	SmartDashboard.putNumber("coPilotSteering",value);
+//    	SmartDashboard.putNumber("coPilotSteering",value);
     	return value;
     }
     
@@ -92,7 +92,7 @@ public class Controller {
     public static void Toggle_Buttons(){
     	Boolean[] pilot_Current_Buttons = new Boolean[BUTTON_COUNT];
     	for(int i = 0; i < BUTTON_COUNT; i++){
-    		pilot_Current_Buttons[i] = pilot.getRawButton(i);
+    		pilot_Current_Buttons[i] = pilot.getRawButton(i + 1);
     	}
 		for(int i = 0; i < BUTTON_COUNT; i++){
 			if(pilot_Current_Buttons != pilot_Last_Buttons){
@@ -102,7 +102,7 @@ public class Controller {
 		
     	Boolean[] coPilot_Current_Buttons = new Boolean[BUTTON_COUNT];
     	for(int i = 0; i < BUTTON_COUNT; i++){
-    		coPilot_Current_Buttons[i] = coPilot.getRawButton(i);
+    		coPilot_Current_Buttons[i] = coPilot.getRawButton(i + 1);
     	}
 		for(int i = 0; i < BUTTON_COUNT; i++){
 			if(coPilot_Current_Buttons != coPilot_Last_Buttons){
@@ -116,39 +116,39 @@ public class Controller {
 	}
 	
 	private static void createDriverstaion(){
-    	SmartDashboard.putNumber("pilotThrottle",0);
-    	SmartDashboard.putNumber("pilotSteering",0);
-    	SmartDashboard.putNumber("coPilotThrottle",0);
-    	SmartDashboard.putNumber("coPilotSteering",0);
-
-    	SmartDashboard.putBoolean("CoPilotTakeOver",CoPilotTakeOver);
-
-    	SmartDashboard.putBoolean("Pilot A",false);
-    	SmartDashboard.putBoolean("Pilot B",false);
-    	SmartDashboard.putBoolean("Pilot X",false);
-    	SmartDashboard.putBoolean("Pilot Y",false);
-    	SmartDashboard.putBoolean("Pilot LB",false);
-    	SmartDashboard.putBoolean("Pilot RB",false);
-
-    	SmartDashboard.putBoolean("Pilot A Toggled",false);
-    	SmartDashboard.putBoolean("Pilot B Toggled",false);
-    	SmartDashboard.putBoolean("Pilot X Toggled",false);
-    	SmartDashboard.putBoolean("Pilot Y Toggled",false);
-    	SmartDashboard.putBoolean("Pilot LB Toggled",false);
-    	SmartDashboard.putBoolean("Pilot RB Toggled",false);
-
-    	SmartDashboard.putBoolean("CoPilot A",false);
-    	SmartDashboard.putBoolean("CoPilot B",false);
-    	SmartDashboard.putBoolean("CoPilot X",false);
-    	SmartDashboard.putBoolean("CoPilot Y",false);
-    	SmartDashboard.putBoolean("CoPilot LB",false);
-    	SmartDashboard.putBoolean("CoPilot RB",false);
-
-    	SmartDashboard.putBoolean("CoPilot A Toggled",false);
-    	SmartDashboard.putBoolean("CoPilot B Toggled",false);
-    	SmartDashboard.putBoolean("CoPilot X Toggled",false);
-    	SmartDashboard.putBoolean("CoPilot Y Toggled",false);
-    	SmartDashboard.putBoolean("CoPilot LB Toggled",false);
-    	SmartDashboard.putBoolean("CoPilot RB Toggled",false);
+//    	SmartDashboard.putNumber("pilotThrottle",0);
+//    	SmartDashboard.putNumber("pilotSteering",0);
+//    	SmartDashboard.putNumber("coPilotThrottle",0);
+//    	SmartDashboard.putNumber("coPilotSteering",0);
+//
+//    	SmartDashboard.putBoolean("CoPilotTakeOver",CoPilotTakeOver);
+//
+//    	SmartDashboard.putBoolean("Pilot A",false);
+//    	SmartDashboard.putBoolean("Pilot B",false);
+//    	SmartDashboard.putBoolean("Pilot X",false);
+//    	SmartDashboard.putBoolean("Pilot Y",false);
+//    	SmartDashboard.putBoolean("Pilot LB",false);
+//    	SmartDashboard.putBoolean("Pilot RB",false);
+//
+//    	SmartDashboard.putBoolean("Pilot A Toggled",false);
+//    	SmartDashboard.putBoolean("Pilot B Toggled",false);
+//    	SmartDashboard.putBoolean("Pilot X Toggled",false);
+//    	SmartDashboard.putBoolean("Pilot Y Toggled",false);
+//    	SmartDashboard.putBoolean("Pilot LB Toggled",false);
+//    	SmartDashboard.putBoolean("Pilot RB Toggled",false);
+//
+//    	SmartDashboard.putBoolean("CoPilot A",false);
+//    	SmartDashboard.putBoolean("CoPilot B",false);
+//    	SmartDashboard.putBoolean("CoPilot X",false);
+//    	SmartDashboard.putBoolean("CoPilot Y",false);
+//    	SmartDashboard.putBoolean("CoPilot LB",false);
+//    	SmartDashboard.putBoolean("CoPilot RB",false);
+//
+//    	SmartDashboard.putBoolean("CoPilot A Toggled",false);
+//    	SmartDashboard.putBoolean("CoPilot B Toggled",false);
+//    	SmartDashboard.putBoolean("CoPilot X Toggled",false);
+//    	SmartDashboard.putBoolean("CoPilot Y Toggled",false);
+//    	SmartDashboard.putBoolean("CoPilot LB Toggled",false);
+//    	SmartDashboard.putBoolean("CoPilot RB Toggled",false);
 	}
 }

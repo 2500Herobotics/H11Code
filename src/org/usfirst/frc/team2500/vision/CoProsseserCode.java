@@ -3,7 +3,6 @@ package org.usfirst.frc.team2500.vision;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.cscore.*;
 
@@ -18,8 +17,6 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 public class CoProsseserCode {
-	
-	private static NetworkTable table;
 	
 	public static void main(String[] args) {
 	    // Loads our OpenCV library. This MUST be included
@@ -70,7 +67,8 @@ public class CoProsseserCode {
 			    long frameTime = imageSink.grabFrame(inputImage);
 			    if (frameTime == 0) continue;
 				//color
-				double[] hsvThresholdHue = {0.0, 6.0};
+			    //Probebly blue
+				double[] hsvThresholdHue = {175.0, 250.0};
 				double[] hsvThresholdSaturation = {140, 255};
 				double[] hsvThresholdValue = {13, 255.0};
 				hsvThreshold(inputImage, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);

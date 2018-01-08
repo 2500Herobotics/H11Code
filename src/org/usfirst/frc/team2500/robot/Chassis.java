@@ -2,7 +2,6 @@ package org.usfirst.frc.team2500.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -13,18 +12,18 @@ public class Chassis {
 	private static final int LEFT_ENCODER_PORT1 = 0;
 	private static final int LEFT_ENCODER_PORT2 = 1;
 	
-	private static final int RIGHT_ENCODER_PORT1 = 0;
-	private static final int RIGHT_ENCODER_PORT2 = 1;
+	private static final int RIGHT_ENCODER_PORT1 = 2;
+	private static final int RIGHT_ENCODER_PORT2 = 3;
 	
 	private static Encoder leftSideEndoder, rightSideEndoder;
 	
 	private static AHRS gyro;
 
-	private static final int LEFT_MOTOR_PORT1 = 0;
-	private static final int LEFT_MOTOR_PORT2 = 1;
+	private static final int LEFT_MOTOR_PORT1 = 6;
+	private static final int LEFT_MOTOR_PORT2 = 7;
 
-	private static final int RIGHT_MOTOR_PORT1 = 3;
-	private static final int RIGHT_MOTOR_PORT2 = 4;
+	private static final int RIGHT_MOTOR_PORT1 = 8;
+	private static final int RIGHT_MOTOR_PORT2 = 9;
 
 	private static Victor leftSideMotor1,leftSideMotor2;
 
@@ -41,12 +40,12 @@ public class Chassis {
 	
 	public static void initialize(){
 
-		leftSideEndoder = new Encoder(LEFT_ENCODER_PORT1,LEFT_ENCODER_PORT2);
-		rightSideEndoder = new Encoder(RIGHT_ENCODER_PORT1,RIGHT_ENCODER_PORT2);
-		leftSideEndoder.setDistancePerPulse(1);
-		leftSideEndoder.reset();
-		rightSideEndoder.setDistancePerPulse(1);
-		rightSideEndoder.reset();
+//		leftSideEndoder = new Encoder(LEFT_ENCODER_PORT1,LEFT_ENCODER_PORT2);
+//		rightSideEndoder = new Encoder(RIGHT_ENCODER_PORT1,RIGHT_ENCODER_PORT2);
+//		leftSideEndoder.setDistancePerPulse(1);
+//		leftSideEndoder.reset();
+//		rightSideEndoder.setDistancePerPulse(1);
+//		rightSideEndoder.reset();
 		
 		gyro = new AHRS(SPI.Port.kMXP);
 		gyro.reset();
