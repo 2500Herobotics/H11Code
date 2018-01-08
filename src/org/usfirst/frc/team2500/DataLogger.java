@@ -10,13 +10,15 @@ import org.usfirst.frc.team2500.driverStation.Controller;
 import org.usfirst.frc.team2500.robot.Chassis;
 import org.usfirst.frc.team2500.vision.CoProsseserInteracion;
 
-public class DataLogger {
+import edu.wpi.first.wpilibj.command.Command;
+
+public class DataLogger extends Command {
 
 	private static File f;
 	private static BufferedWriter bw;
 	private static FileWriter fw;
 	
-	public static void initialize(){
+	public void initialize(){
 		String fileName = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new java.util.Date());
     	try {
     		//Path for flashedrive
@@ -31,20 +33,8 @@ public class DataLogger {
 		}
     	bw = new BufferedWriter(fw);
     }
-    
-    public static void closeFileWriter(){
-    	try{
-			bw.close();
-			fw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	
-    }
-
-
-    public static void logData(){
+	
+	public void execute() {
     	logTime();
     	logDriveEncoders();
     	logJoySticks();
@@ -52,6 +42,23 @@ public class DataLogger {
     	logVision();
     	try {
 			bw.append("\n");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+	@Override
+	protected boolean isFinished() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+    
+    public static void closeFileWriter(){
+    	try{
+			bw.close();
+			fw.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -40,6 +40,8 @@ public class Main extends IterativeRobot {
 	Command teleopCommand;
 	SendableChooser<Command> teleopChooser = new SendableChooser<>();
 	
+	Command dataLogger;
+	
 	UsbCamera camera1;
 	UsbCamera camera2;
 	
@@ -57,6 +59,8 @@ public class Main extends IterativeRobot {
 		Chassis.initialize();
 		
 		Unloader.initialize();
+		
+		dataLogger = new DataLogger();
 		
 		autonomousChooser.addDefault("Default Auto", new AutoBaseLine());
 		autonomousChooser.addObject("Base Line", new AutoBaseLine());
@@ -104,6 +108,10 @@ public class Main extends IterativeRobot {
 		}
 		else{
 			System.out.println("Something went wrong in starting auto");
+		}
+		
+		if (dataLogger != null){
+			dataLogger.start();
 		}
 	}
 	

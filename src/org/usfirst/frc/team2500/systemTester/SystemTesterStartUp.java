@@ -13,10 +13,7 @@ public class SystemTesterStartUp extends Command {
 		SmartDashboard.putData("Auto mode", new TestChassis());
 		finished = true;
 	}
-
-	/**
-	* This function is called periodically during autonomous
-	*/
+	
 	public void execute() {
 		
 	}
