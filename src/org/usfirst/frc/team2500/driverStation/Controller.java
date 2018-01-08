@@ -1,7 +1,6 @@
 package org.usfirst.frc.team2500.driverStation;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Controller {

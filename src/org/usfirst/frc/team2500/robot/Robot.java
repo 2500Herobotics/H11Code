@@ -6,11 +6,9 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team2500.DataLogger;
 //auto imports
 import org.usfirst.frc.team2500.autonomus.AutoBaseLine;
 import org.usfirst.frc.team2500.autonomus.AutoCentor;
@@ -58,6 +56,7 @@ public class Robot extends IterativeRobot {
 		
 		//dataLogger = new DataLogger();
 		
+		
 		autonomousChooser.addDefault("Default Auto", new AutoBaseLine());
 		autonomousChooser.addObject("Base Line", new AutoBaseLine());
 		autonomousChooser.addObject("Left Switch", new AutoLeftSwitch());
@@ -81,7 +80,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-//		DataLogger.closeFileWriter();
+		autonomousCommand.cancel();
+		teleopCommand.cancel();
 	}
 	
 	@Override
