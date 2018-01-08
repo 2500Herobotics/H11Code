@@ -19,15 +19,13 @@ public class Chassis {
 
 	private static final int LEFT_MOTOR_PORT1 = 0;
 	private static final int LEFT_MOTOR_PORT2 = 1;
-	private static final int LEFT_MOTOR_PORT3 = 2;
 
 	private static final int RIGHT_MOTOR_PORT1 = 3;
 	private static final int RIGHT_MOTOR_PORT2 = 4;
-	private static final int RIGHT_MOTOR_PORT3 = 5;
 
-	private static Victor leftSideMotor1,leftSideMotor2,leftSideMotor3;
+	private static Victor leftSideMotor1,leftSideMotor2;
 
-	private static Victor rightSideMotor1,rightSideMotor2,rightSideMotor3;
+	private static Victor rightSideMotor1,rightSideMotor2;
 	
 	private static final int SHIFTER_PORT = 0;
 	
@@ -47,11 +45,11 @@ public class Chassis {
 		
 		leftSideMotor1 = new Victor(LEFT_MOTOR_PORT1);
 		leftSideMotor2 = new Victor(LEFT_MOTOR_PORT2);
-		leftSideMotor3 = new Victor(LEFT_MOTOR_PORT3);
+		//leftSideMotor3 = new Victor(LEFT_MOTOR_PORT3);
 
 		rightSideMotor1 = new Victor(RIGHT_MOTOR_PORT1);
 		rightSideMotor2 = new Victor(RIGHT_MOTOR_PORT2);
-		rightSideMotor3 = new Victor(RIGHT_MOTOR_PORT3);
+		//rightSideMotor3 = new Victor(RIGHT_MOTOR_PORT3);
 		
 		shifter = new Solenoid(SHIFTER_PORT);
 		
@@ -62,11 +60,11 @@ public class Chassis {
 	public static void ChangePower(double powerL,double powerR){
 		leftSideMotor1.set(powerL);
 		leftSideMotor2.set(powerL);
-		leftSideMotor3.set(powerL);
+		//leftSideMotor3.set(powerL);
 		
 		rightSideMotor1.set(powerR);
 		rightSideMotor2.set(powerR);
-		rightSideMotor3.set(powerR);
+		//rightSideMotor3.set(powerR);
 	}
 	
 	public static void shift(boolean setShift){
@@ -167,5 +165,9 @@ public class Chassis {
 	public static void resetEncoders(){
 		leftSideEndoder.reset();
 		rightSideEndoder.reset();
+	}
+	
+	public static void resetGyro(){
+		gyro.reset();
 	}
 }

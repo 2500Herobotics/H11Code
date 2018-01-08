@@ -7,12 +7,11 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 //auto imports
 import org.usfirst.frc.team2500.autonomus.AutoBaseLine;
-import org.usfirst.frc.team2500.autonomus.AutoBuilder;
 import org.usfirst.frc.team2500.autonomus.AutoCentor;
 import org.usfirst.frc.team2500.autonomus.AutoLeftSwitch;
 import org.usfirst.frc.team2500.autonomus.AutoRightSwitch;
@@ -24,6 +23,7 @@ import org.usfirst.frc.team2500.driverStation.Controller;
 //mechinisums imports
 import org.usfirst.frc.team2500.robot.Chassis;
 import org.usfirst.frc.team2500.robot.Unloader;
+import org.usfirst.frc.team2500.systemTester.SystemTesterStartUp;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -60,7 +60,6 @@ public class Main extends IterativeRobot {
 		
 		autonomousChooser.addDefault("Default Auto", new AutoBaseLine());
 		autonomousChooser.addObject("Base Line", new AutoBaseLine());
-		autonomousChooser.addObject("Auto Builder", new AutoBuilder());
 		autonomousChooser.addObject("Left Switch", new AutoLeftSwitch());
 		autonomousChooser.addObject("Centor", new AutoCentor());
 		autonomousChooser.addObject("Right Switch", new AutoRightSwitch());
@@ -68,6 +67,7 @@ public class Main extends IterativeRobot {
 		
 		teleopChooser.addDefault("Competition Teleop", new competitionTeleop());
 		teleopChooser.addObject("Outreach Teleop", new outreachTeleop());
+		teleopChooser.addObject("Subsystem Tester", new SystemTesterStartUp());
 		SmartDashboard.putData("Teleop Mode", teleopChooser);
 
 		camera1 = CameraServer.getInstance().startAutomaticCapture(0);
