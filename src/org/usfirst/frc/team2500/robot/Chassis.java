@@ -1,7 +1,10 @@
 package org.usfirst.frc.team2500.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 
@@ -15,7 +18,7 @@ public class Chassis {
 	
 	private static Encoder leftSideEndoder, rightSideEndoder;
 	
-	private static ADXRS450_Gyro gyro;
+	private static AHRS gyro;
 
 	private static final int LEFT_MOTOR_PORT1 = 0;
 	private static final int LEFT_MOTOR_PORT2 = 1;
@@ -41,7 +44,7 @@ public class Chassis {
 		leftSideEndoder = new Encoder(LEFT_ENCODER_PORT1,LEFT_ENCODER_PORT2);
 		rightSideEndoder = new Encoder(RIGHT_ENCODER_PORT1,RIGHT_ENCODER_PORT2);
 		
-		gyro = new ADXRS450_Gyro();
+		gyro = new AHRS(SPI.Port.kMXP);
 		
 		leftSideMotor1 = new Victor(LEFT_MOTOR_PORT1);
 		leftSideMotor2 = new Victor(LEFT_MOTOR_PORT2);
