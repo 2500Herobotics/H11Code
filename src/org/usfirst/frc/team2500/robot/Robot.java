@@ -35,6 +35,11 @@ public class Robot extends IterativeRobot {
 	
 	Command teleopCommand;
 	SendableChooser<Command> teleopChooser = new SendableChooser<>();
+
+	public static Chassis chassis;
+	public static Climber climber ;
+	public static Lift lift;
+	public static Unloader unloader;
 	
 	//Command dataLogger;
 	
@@ -52,10 +57,9 @@ public class Robot extends IterativeRobot {
 
 		Chassis.initialize();
 		
-		Unloader.initialize();
+		Climber.initialize();
 		
-		//dataLogger = new DataLogger();
-		
+		unloader = new Unloader();
 		
 		autonomousChooser.addDefault("Default Auto", new AutoBaseLine());
 		autonomousChooser.addObject("Base Line", new AutoBaseLine());
@@ -95,10 +99,6 @@ public class Robot extends IterativeRobot {
 		else{
 			System.out.println("Something went wrong in starting auto");
 		}
-		
-//		if (dataLogger != null){
-//			dataLogger.start();
-//		}
 	}
 	
 	@Override

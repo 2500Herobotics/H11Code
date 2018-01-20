@@ -6,8 +6,9 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Chassis {
+public class Chassis extends Subsystem{
 
 	private static final int LEFT_ENCODER_PORT1 = 0;
 	private static final int LEFT_ENCODER_PORT2 = 1;
@@ -65,11 +66,9 @@ public class Chassis {
 	public static void ChangePower(double powerL,double powerR){
 		leftSideMotor1.set(powerL);
 		leftSideMotor2.set(powerL);
-		//leftSideMotor3.set(powerL);
 		
 		rightSideMotor1.set(powerR);
 		rightSideMotor2.set(powerR);
-		//rightSideMotor3.set(powerR);
 	}
 	
 	public static void shift(boolean setShift){
@@ -174,5 +173,11 @@ public class Chassis {
 	
 	public static void resetGyro(){
 		gyro.reset();
+	}
+
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
+		
 	}
 }

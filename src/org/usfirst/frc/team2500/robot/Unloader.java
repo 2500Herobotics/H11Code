@@ -1,17 +1,23 @@
 package org.usfirst.frc.team2500.robot;
 
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Unloader {
-	private static final int MOTOR_PORT = 5;
+public class Unloader extends Subsystem {
+	private final int MOTOR_PORT = 5;
 	
-	private static Victor motor;
+	private Victor motor;
 	
-	public static void initialize(){
+	public Unloader(){
 		motor = new Victor(MOTOR_PORT);
 	}
 	
-	public static void setPower(double speed){
+	public void setPower(double speed){
 		motor.set(speed);
+	}
+
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
 	}
 }

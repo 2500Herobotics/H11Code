@@ -63,13 +63,13 @@ public class Controller {
 
     public static double Pilot_Throttle (){
     	double value = handleDeadband(pilot.getRawAxis(GamePad.Axis.LEFT_Y),0.1);
-//    	SmartDashboard.putNumber("pilotThrottle",value);
+    	SmartDashboard.putNumber("Pilot Throttle",value);
     	return value;
     }
     
     public static double Pilot_Steering (){
     	double value = handleDeadband(pilot.getRawAxis(GamePad.Axis.RIGHT_X),0.1);
-//    	SmartDashboard.putNumber("pilotSteering",value);
+    	SmartDashboard.putNumber("Pilot Steering",value);
     	return value;
     }
     

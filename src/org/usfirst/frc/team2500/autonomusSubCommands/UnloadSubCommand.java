@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2500.autonomusSubCommands;
 
+import org.usfirst.frc.team2500.robot.Robot;
 import org.usfirst.frc.team2500.robot.Unloader;
 
 public class UnloadSubCommand implements AutoSubCommand {
@@ -17,7 +18,7 @@ public class UnloadSubCommand implements AutoSubCommand {
 		currentTime += deltaTime;
 		timeLeft -= deltaTime;
 		
-		Unloader.setPower(1);
+		Robot.unloader.setPower(1);
 		
 		return timeLeft < 0;
 	}
