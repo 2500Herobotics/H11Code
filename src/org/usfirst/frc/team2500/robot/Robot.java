@@ -14,12 +14,13 @@ import org.usfirst.frc.team2500.autonomus.AutoBaseLine;
 import org.usfirst.frc.team2500.autonomus.AutoCentor;
 import org.usfirst.frc.team2500.autonomus.AutoLeftSwitch;
 import org.usfirst.frc.team2500.autonomus.AutoRightSwitch;
-//teleop imports
-import org.usfirst.frc.team2500.teleops.competitionTeleop;
-import org.usfirst.frc.team2500.teleops.outreachTeleop;
 //driverstaion imports
 import org.usfirst.frc.team2500.driverStation.Controller;
-import org.usfirst.frc.team2500.systemTester.SystemTesterStartUp;
+import org.usfirst.frc.team2500.subSystemCommands.DriveChassis;
+import org.usfirst.frc.team2500.subSystems.Chassis;
+import org.usfirst.frc.team2500.subSystems.Climber;
+import org.usfirst.frc.team2500.subSystems.Lift;
+import org.usfirst.frc.team2500.subSystems.Unloader;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -32,11 +33,8 @@ public class Robot extends IterativeRobot {
 
 	Command autonomousCommand;
 	SendableChooser<Command> autonomousChooser = new SendableChooser<>();
-	
-	Command teleopCommand;
-	SendableChooser<Command> teleopChooser = new SendableChooser<>();
 
-	public static Chassis chassis;
+	public static DriveChassis chassis;
 	public static Climber climber ;
 	public static Lift lift;
 	public static Unloader unloader;
@@ -54,8 +52,6 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		
 		Controller.initialize();
-
-		Chassis.initialize();
 		
 		Climber.initialize();
 		
@@ -67,14 +63,9 @@ public class Robot extends IterativeRobot {
 		autonomousChooser.addObject("Centor", new AutoCentor());
 		autonomousChooser.addObject("Right Switch", new AutoRightSwitch());
 		SmartDashboard.putData("Auto mode", autonomousChooser);
-		
-		teleopChooser.addDefault("Competition Teleop", new competitionTeleop());
-		teleopChooser.addObject("Outreach Teleop", new outreachTeleop());
-		teleopChooser.addObject("Subsystem Tester", new SystemTesterStartUp());
-		SmartDashboard.putData("Teleop Mode", teleopChooser);
 
-		camera1 = CameraServer.getInstance().startAutomaticCapture(0);
-		camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+//		camera1 = CameraServer.getInstance().startAutomaticCapture(0);
+//		camera2 = CameraServer.getInstance().startAutomaticCapture(1);
 	}
 	
 	/**
@@ -85,7 +76,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledInit() {
 		autonomousCommand.cancel();
-		teleopCommand.cancel();
 	}
 	
 	@Override
@@ -114,12 +104,8 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
-
-		teleopCommand = teleopChooser.getSelected();
-
-		// schedule the autonomous command (example)
-		if (teleopCommand != null)
-			teleopCommand.start();
+		
+		chassis.start();
 	}
 
 	/**
@@ -127,9 +113,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		//Test each button to see if it was releced
-		Controller.Toggle_Buttons();
-		
 		Scheduler.getInstance().run();
 	}
 }

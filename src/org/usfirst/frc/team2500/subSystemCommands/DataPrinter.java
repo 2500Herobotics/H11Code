@@ -6,13 +6,11 @@ import org.usfirst.frc.team2500.subSystems.Chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveChassis extends Command{
-
-	private double speedScaler;
+public class DataPrinter extends Command {
 	
-    public DriveChassis(double speedScaler) {
+	public DataPrinter() {
         requires(Chassis.getInstance());
-        this.speedScaler = speedScaler;
+        setTimeout(.9);
     }
 
     protected void initialize() {
@@ -20,14 +18,10 @@ public class DriveChassis extends Command{
     }
     
     protected void execute(){
-    	double turnValue = Controller.Pilot_Steering() * speedScaler;
-    	System.out.println("turnValue: " + turnValue);
-    	double moveValue = Controller.Pilot_Throttle() * speedScaler;
-    	System.out.println("moveValue: " + moveValue);
-    	
-    	Chassis.getInstance().shift(Controller.Pilot_Shift());
-    	
-    	Chassis.getInstance().ChangeSpeed(turnValue, moveValue);
+    	System.out.print(Controller.Pilot_Steering() + "\t");
+    	System.out.print(Controller.Pilot_Throttle() + "\t");
+    	System.out.print(Chassis.getInstance().getLeftRate() + "\t");
+    	System.out.print(Chassis.getInstance().getRightRate() + "\t");
     }
     
     protected boolean isFinished() {

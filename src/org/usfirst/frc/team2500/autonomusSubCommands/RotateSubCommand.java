@@ -1,19 +1,25 @@
 package org.usfirst.frc.team2500.autonomusSubCommands;
 
-import org.usfirst.frc.team2500.robot.Chassis;
+import org.usfirst.frc.team2500.subSystems.Chassis;
 
-public class RotateSubCommand implements AutoSubCommand {
+import edu.wpi.first.wpilibj.command.Command;
+
+public class RotateSubCommand extends Command {
 	
 	double degrees;
 	
 	double ERROR = 1;
 	
+	boolean finished = false;
+	
 	public RotateSubCommand(double degrees){
+		requires(Chassis.getInstance());
 		this.degrees = degrees;
+		finished = false;
 	}
 	
-	public boolean run(){
-		return rotateTo(degrees,ERROR);
+	public void execute(){
+		rotateTo(degrees,ERROR);
 	}
 	
 	private static double p = 1, i = 1, d = 1;
@@ -25,13 +31,13 @@ public class RotateSubCommand implements AutoSubCommand {
 	/**
 	 * This is in degrees
 	 */
-	public static boolean rotateTo(double degrees, double errorMax){
+	public void rotateTo(double degrees, double errorMax){
 
 		   /*How long since we last calculated*/
 		   long now = System.currentTimeMillis();
 		   double timeChange = (double)(now - lastTimeRotation);
 		  
-		   double gyroReading = Chassis.getAngle();
+		   double gyroReading = Chassis.getInstance().getAngle();
 		   /*Compute all the working error variables*/
 		   double error = degrees - gyroReading;
 		   double derivativeError = 0;
@@ -50,7 +56,13 @@ public class RotateSubCommand implements AutoSubCommand {
 		   lastErrRotation = error;
 		   lastTimeRotation = now;
 		   
-		   Chassis.ChangePower(output, output * -1);
-		   return error < errorMax;
+		   Chassis.getInstance().ChangePower(output, output * -1);
+		   finished =  error < errorMax;
+	}
+
+	@Override
+	protected boolean isFinished() {
+		// TODO Auto-generated method stub
+		return finished;
 	}
 }

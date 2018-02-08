@@ -1,32 +1,25 @@
 package org.usfirst.frc.team2500.autonomus;
 
-import org.usfirst.frc.team2500.autonomusSubCommands.AutoSubCommand;
 import org.usfirst.frc.team2500.autonomusSubCommands.DriveSubCommand;
 import org.usfirst.frc.team2500.autonomusSubCommands.UnloadSubCommand;
 import org.usfirst.frc.team2500.autonomusSubCommands.UnloaderSubCommand;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class AutoBaseLine extends Command {
+public class AutoBaseLine extends CommandGroup {
 
-	
-	AutoSubCommand command;
-	int currentCommand;
-	boolean finished;
-	
-	/**
-     * This function is run once each time the robot enters autonomous mode
-     */	
-    public void initialize() {
-		command = new DriveSubCommand(1,1,0);
+	public  AutoBaseLine() {
+    	addSequential(new DriveSubCommand(1,1,0));
     }
+	
 
     /**
      * This function is called periodically during autonomous
      */
     public void execute() {
-		finished = command.run();
+    	
     }
     
     /**
@@ -36,6 +29,6 @@ public class AutoBaseLine extends Command {
      */
 	@Override
 	protected boolean isFinished() {
-		return finished;
+		return false;
 	}
 }

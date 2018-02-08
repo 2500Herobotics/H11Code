@@ -1,50 +1,21 @@
 package org.usfirst.frc.team2500.autonomus;
 
-import org.usfirst.frc.team2500.autonomusSubCommands.AutoSubCommand;
 import org.usfirst.frc.team2500.autonomusSubCommands.DriveSubCommand;
 import org.usfirst.frc.team2500.autonomusSubCommands.UnloaderSubCommand;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
 
-public class AutoRightSwitch extends Command {
-	
-	AutoSubCommand[] commands;
-	int currentCommand;
-	boolean finished;
+public class AutoRightSwitch extends CommandGroup {
 	
 	/**
      * This function is run once each time the robot enters autonomous mode
      */	
     public void initialize() {
-		commands = new AutoSubCommand[4];
-		commands[0] = new DriveSubCommand(1,1,0);
-		commands[1] = new DriveSubCommand(1,1,315);
-		commands[2] = new DriveSubCommand(1,1,0);
-		commands[3] = new UnloaderSubCommand(270,1,'R');
-		currentCommand = 0;
-		finished = false;
-    }
-
-    /**
-     * This function is called periodically during autonomous
-     */
-    public void execute() {
-		if(currentCommand == commands.length){
-			finished = true;
-		}
-		if(commands[currentCommand].run()){
-			currentCommand++;
-		}
+    	addSequential(new DriveSubCommand(1,1,0));
+    	addSequential(new DriveSubCommand(1,1,315));
+    	addSequential(new DriveSubCommand(1,1,0));
+    	addSequential(new UnloaderSubCommand(270,1,'L'));
     }
     
-    /**
-     * This function is used to end the program
-     * When it returns true the command finishes
-     * Make sure it does this so it dosnt talk up cup power by running this command over and over again
-     */
-	@Override
-	protected boolean isFinished() {
-		return finished;
-	}
 }

@@ -1,25 +1,36 @@
 package org.usfirst.frc.team2500.autonomusSubCommands;
 
 import org.usfirst.frc.team2500.robot.Robot;
-import org.usfirst.frc.team2500.robot.Unloader;
+import org.usfirst.frc.team2500.subSystems.Chassis;
+import org.usfirst.frc.team2500.subSystems.Unloader;
 
-public class UnloadSubCommand implements AutoSubCommand {
+import edu.wpi.first.wpilibj.command.Command;
+
+public class UnloadSubCommand extends Command {
 	
 	double timeLeft;
 	double currentTime;
 	
+	boolean finished = false;
+	
 	public UnloadSubCommand(double time){
+		requires(Chassis.getInstance());
 		timeLeft = time;
 		currentTime = System.currentTimeMillis();
+		finished = false;
 	}
 	
-	public boolean run(){
+	public void execute(){
 		double deltaTime = System.currentTimeMillis() - currentTime;
 		currentTime += deltaTime;
 		timeLeft -= deltaTime;
 		
 		Robot.unloader.setPower(1);
-		
+	}
+
+	@Override
+	protected boolean isFinished() {
+		// TODO Auto-generated method stub
 		return timeLeft < 0;
 	}
 }

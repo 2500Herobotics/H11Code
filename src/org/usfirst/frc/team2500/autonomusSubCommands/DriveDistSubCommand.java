@@ -1,21 +1,29 @@
 package org.usfirst.frc.team2500.autonomusSubCommands;
 
-import org.usfirst.frc.team2500.robot.Chassis;
+import org.usfirst.frc.team2500.robot.Robot;
+import org.usfirst.frc.team2500.subSystems.Chassis;
 
-public class DriveDistSubCommand implements AutoSubCommand {
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+
+public class DriveDistSubCommand extends Command {
 	
 	private double leftDistance;
 	private double rightDistance;
 	
 	private double ERROR = 1;
 	
+	private boolean finnished = false;
+	
 	public DriveDistSubCommand(double leftDistance, double rightDistance){
+		requires(Chassis.getInstance());
 		this.leftDistance = leftDistance;
 		this.rightDistance = rightDistance;
+		finnished = false;
 	}
 	
-	public boolean run(){
-		return MoveTo(leftDistance, rightDistance, ERROR);
+	public void execute(){
+		MoveTo(leftDistance, rightDistance, ERROR);
 	}
 	
 
@@ -24,13 +32,13 @@ public class DriveDistSubCommand implements AutoSubCommand {
 
 	private static double errSumLeftDistance, lastErrLeftDistance;
 	private static double errSumRightDistance, lastErrRightDistance;
-	private boolean MoveTo(double leftDistance,double rightDistance, double returnError)
+	private void MoveTo(double leftDistance,double rightDistance, double returnError)
 	{
 		/*How long since we last calculated*/
 		long now = System.currentTimeMillis();
 		double timeChange = now - lastTimeDistance;
 	  
-	   	double eCodeReading = Chassis.getLeftRate();
+	   	double eCodeReading = Chassis.getInstance().getLeftRate();
 	   	/*Compute all the working error variables*/
 	   	double errorLeft = leftDistance - eCodeReading;
 	   	double dErr = 0;
@@ -42,7 +50,7 @@ public class DriveDistSubCommand implements AutoSubCommand {
 		/*Compute PID Output*/
 		double leftPower = p * errorLeft + i * errSumLeftDistance + d * dErr;
 	   
-		eCodeReading = Chassis.getRightRate();
+		eCodeReading = Chassis.getInstance().getRightRate();
 		/*Compute all the working error variables*/
 		double errorRight = rightDistance - eCodeReading;
 		dErr = 0;
@@ -55,8 +63,14 @@ public class DriveDistSubCommand implements AutoSubCommand {
 
 		double rightPower = p * errorRight + i * errSumRightDistance + d * dErr;
 	   
-	   Chassis.ChangePower(leftPower, rightPower);
+		Chassis.getInstance().ChangePower(leftPower, rightPower);
 	   
-	   return returnError > errorRight && returnError > errorLeft;
+		finnished = returnError > errorRight && returnError > errorLeft;
+	}
+
+	@Override
+	protected boolean isFinished() {
+		// TODO Auto-generated method stub
+		return finnished;
 	}
 }

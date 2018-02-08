@@ -1,32 +1,22 @@
 package org.usfirst.frc.team2500.autonomusSubCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class UnloaderSubCommand implements AutoSubCommand {
-	
-	AutoSubCommand[] commands;
-	int currentCommand;
-	char side;
-	String gameData;
-	
+public class UnloaderSubCommand extends CommandGroup {
+
 	// true - Left
 	// false - Right
-	public UnloaderSubCommand(double degrees,double time, char side){
-		commands = new AutoSubCommand[2];
-		commands[0] = new RotateSubCommand(degrees);
-		commands[1] = new UnloadSubCommand(time);
-		currentCommand = 0;
-		this.side = side;
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-	}
-	
-	public boolean run(){
-		if(side != gameData.charAt(0) || currentCommand == commands.length){
-			return true;
+	public UnloaderSubCommand(double degrees,double time, char robotSide){
+		String gameData = DriverStation.getInstance().getGameSpecificMessage();
+		if(gameData.charAt(1) == robotSide){
+			addSequential(new DriveSubCommand(1, 1, 0));
+	    	addSequential(new RotateSubCommand(degrees));
+	    	addSequential(new UnloadSubCommand(time));
 		}
-		if(commands[currentCommand].run()){
-			currentCommand++;
+		else if(gameData.charAt(1) == robotSide){
+	    	addSequential(new RotateSubCommand(degrees));
+	    	addSequential(new UnloadSubCommand(time));
 		}
-		return false;
 	}
 }

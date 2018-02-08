@@ -1,21 +1,19 @@
 package org.usfirst.frc.team2500.driverStation;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Controller {
 
 	public static final int PORT_DRIVER_CONTROLLER = 0;
-	public static final int PORT_COPILOT_CONTROLLER = 1;
 	
 	private static Joystick pilot;
-	private static Joystick coPilot;
 	
 	public static final int BUTTON_COUNT = 6;
 	private static Boolean[] pilot_Toggle;
-	private static Boolean[] coPilot_Toggle;
-	
-	private static Boolean CoPilotTakeOver; 
 	
 	public static boolean initialized = false;
     
@@ -25,42 +23,20 @@ public class Controller {
     		return;
     	
     	pilot = new Joystick(PORT_DRIVER_CONTROLLER);
-    	coPilot = new Joystick(PORT_COPILOT_CONTROLLER);
     	
     	//creating arrays for the button toggles
     	pilot_Toggle = new Boolean[BUTTON_COUNT];
     	for(int i = 0; i < BUTTON_COUNT; i++){
     		pilot_Toggle[i] = false;
     	}
-    	coPilot_Toggle = new Boolean[BUTTON_COUNT];
-    	for(int i = 0; i < BUTTON_COUNT; i++){
-    		coPilot_Toggle[i] = false;
-    		
-    	}
-    	pilot_Last_Buttons = new Boolean[BUTTON_COUNT];
-    	for(int i = 0; i < BUTTON_COUNT; i++){
-    		pilot_Last_Buttons[i] = false;
-    	}
-    	coPilot_Last_Buttons = new Boolean[BUTTON_COUNT];
-    	for(int i = 0; i < BUTTON_COUNT; i++){
-    		coPilot_Last_Buttons[i] = false;
-    	}
-    	
-    	CoPilotTakeOver = false;
     	
     	createDriverstaion();
+    	
+    	new JoystickButton(pilot,0);
     	
     	initialized = true;
     }
     
-    public static void SwapPilot(){
-    	Joystick temp = pilot;
-    	pilot = coPilot;
-    	coPilot = temp;
-    	temp = null;
-    	CoPilotTakeOver = !CoPilotTakeOver;
-    }
-
     public static double Pilot_Throttle (){
     	double value = handleDeadband(pilot.getRawAxis(GamePad.Axis.LEFT_Y),0.1);
     	SmartDashboard.putNumber("Pilot Throttle",value);
@@ -73,41 +49,8 @@ public class Controller {
     	return value;
     }
     
-    public static double CoPilot_Throttle (){
-    	double value = handleDeadband(coPilot.getRawAxis(GamePad.Axis.LEFT_Y),0.1);
-//    	SmartDashboard.putNumber("coPilotThrottle",value);
-    	return value;
-    }
-    
-    public static double CoPilot_Steering (){
-    	double value = handleDeadband(coPilot.getRawAxis(GamePad.Axis.RIGHT_X),0.1);
-//    	SmartDashboard.putNumber("coPilotSteering",value);
-    	return value;
-    }
-    
-	private static Boolean[] pilot_Last_Buttons;
-	private static Boolean[] coPilot_Last_Buttons;
-    
-    public static void Toggle_Buttons(){
-    	Boolean[] pilot_Current_Buttons = new Boolean[BUTTON_COUNT];
-    	for(int i = 0; i < BUTTON_COUNT; i++){
-    		pilot_Current_Buttons[i] = pilot.getRawButton(i + 1);
-    	}
-		for(int i = 0; i < BUTTON_COUNT; i++){
-			if(pilot_Current_Buttons != pilot_Last_Buttons){
-				pilot_Last_Buttons[i] = !pilot_Last_Buttons[i];
-			}
-    	}
-		
-    	Boolean[] coPilot_Current_Buttons = new Boolean[BUTTON_COUNT];
-    	for(int i = 0; i < BUTTON_COUNT; i++){
-    		coPilot_Current_Buttons[i] = coPilot.getRawButton(i + 1);
-    	}
-		for(int i = 0; i < BUTTON_COUNT; i++){
-			if(coPilot_Current_Buttons != coPilot_Last_Buttons){
-				pilot_Last_Buttons[i] = !pilot_Last_Buttons[i];
-			}
-    	}
+    public static boolean Pilot_Shift(){
+    	return pilot.getRawButton(2);
     }
 	
 	public static double handleDeadband(double val, double deadband) {

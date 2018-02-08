@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2500.robot;
+package org.usfirst.frc.team2500.subSystems;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -10,43 +10,60 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Chassis extends Subsystem{
 
-	private static final int LEFT_ENCODER_PORT1 = 0;
-	private static final int LEFT_ENCODER_PORT2 = 1;
+	private final int LEFT_ENCODER_PORT1 = 0;
+	private final int LEFT_ENCODER_PORT2 = 1;
+	private final int LEFT_ENCODER_PORT3 = 1;
+	private Encoder leftSideEndoder;
 	
-	private static final int RIGHT_ENCODER_PORT1 = 2;
-	private static final int RIGHT_ENCODER_PORT2 = 3;
+	private final int RIGHT_ENCODER_PORT1 = 2;
+	private final int RIGHT_ENCODER_PORT2 = 3;
+	private final int RIGHT_ENCODER_PORT3 = 3;
+	private Encoder rightSideEndoder;
 	
-	private static Encoder leftSideEndoder, rightSideEndoder;
 	
-	private static AHRS gyro;
+	
+	private AHRS gyro;
+	
+	
+	
+	private final int LEFT_MOTOR_PORT1 = 6;
+	private final int LEFT_MOTOR_PORT2 = 7;
+	private Victor leftSideMotor1,leftSideMotor2;
+	
+	private final int RIGHT_MOTOR_PORT1 = 8;
+	private final int RIGHT_MOTOR_PORT2 = 9;
+	private Victor rightSideMotor1,rightSideMotor2;
+	
+	
+	
+	private final int SHIFTER_PORT = 0;
+	private Solenoid shifter;
+	
+	private boolean shiftTarget;
+	
+	private final double MAX_HIGH_GEAR_SPEED = 0;
+	private final double MAX_LOW_GEAR_SPEED = 0;
+	private final double LOW_GEAR_SHIFT_PERCENT_HIGH = 0.9;
+	private final double LOW_GEAR_SHIFT_PERCENT_LOW = 0.8;
+	
+	public static Chassis instance;
+	
+	public static Chassis getInstance()
+    {
+		if (instance == null)
+		   instance = new Chassis();
+	
+		return instance;
+    }
+	
+	private Chassis(){
 
-	private static final int LEFT_MOTOR_PORT1 = 6;
-	private static final int LEFT_MOTOR_PORT2 = 7;
-
-	private static final int RIGHT_MOTOR_PORT1 = 8;
-	private static final int RIGHT_MOTOR_PORT2 = 9;
-
-	private static Victor leftSideMotor1,leftSideMotor2;
-
-	private static Victor rightSideMotor1,rightSideMotor2;
-	
-	private static final int SHIFTER_PORT = 0;
-	
-	private static Solenoid shifter;
-	
-	private static final double MAX_HIGH_GEAR_SPEED = 0;
-	private static final double MAX_LOW_GEAR_SPEED = 0;
-	
-	private static double maxSpeed;
-	
-	public static void initialize(){
-
-//		leftSideEndoder = new Encoder(LEFT_ENCODER_PORT1,LEFT_ENCODER_PORT2);
-//		rightSideEndoder = new Encoder(RIGHT_ENCODER_PORT1,RIGHT_ENCODER_PORT2);
-//		leftSideEndoder.setDistancePerPulse(1);
-//		leftSideEndoder.reset();
-//		rightSideEndoder.setDistancePerPulse(1);
-//		rightSideEndoder.reset();
+		leftSideEndoder = new Encoder(LEFT_ENCODER_PORT1,LEFT_ENCODER_PORT2,LEFT_ENCODER_PORT3);
+		rightSideEndoder = new Encoder(RIGHT_ENCODER_PORT1,RIGHT_ENCODER_PORT2,RIGHT_ENCODER_PORT3);
+		leftSideEndoder.setDistancePerPulse(1);
+		leftSideEndoder.reset();
+		rightSideEndoder.setDistancePerPulse(1);
+		rightSideEndoder.reset();
 		
 		gyro = new AHRS(SPI.Port.kMXP);
 		gyro.reset();
@@ -59,21 +76,24 @@ public class Chassis extends Subsystem{
 		
 		shifter = new Solenoid(SHIFTER_PORT);
 		
-		maxSpeed = MAX_LOW_GEAR_SPEED;
+		shiftTarget = false;
 	}
 
 	// call to change the power given to the motor
-	public static void ChangePower(double powerL,double powerR){
+	public void ChangePower(double powerL,double powerR){
 		leftSideMotor1.set(powerL);
 		leftSideMotor2.set(powerL);
 		
 		rightSideMotor1.set(powerR);
 		rightSideMotor2.set(powerR);
 	}
+
+	public void shift(boolean setShift){
+		shiftTarget = setShift;
+	}
 	
-	public static void shift(boolean setShift){
-		shifter.set(setShift);
-		maxSpeed = (setShift)? MAX_LOW_GEAR_SPEED : MAX_HIGH_GEAR_SPEED;
+	public void shift(){
+		shiftTarget = !shiftTarget;
 	}
 	
 	public void arcadeDrive(double turnValue, double moveValue){
@@ -103,20 +123,20 @@ public class Chassis extends Subsystem{
 	    ChangePower(leftTargetSpeed, rightTargetSpeed);
 	}
 	
-	private static long lastTimeSpeed;
-	private static double skp = 1, ski = 1, skd = 1;
+	private long lastTimeSpeed;
+	private double skp = 1, ski = 1, skd = 1;
 
-	private static double errSumLeftSpeed, lastErrLeftSpeed;
-	private static double errSumRightSpeed, lastErrRightSpeed;
-	public static void ChangeSpeed(double leftSpeed, double rightSpeed)
+	private double errSumLeftSpeed, lastErrLeftSpeed;
+	private double errSumRightSpeed, lastErrRightSpeed;
+	public void ChangeSpeed(double leftSpeed, double rightSpeed)
 	{
 		/*How long since we last calculated*/
 		long now = System.currentTimeMillis();
 		double timeChange = (double)(now - lastTimeSpeed);
 	  
-	   	double eCodeReading = leftSideEndoder.getRate();
+	   	double eCodeReadingLeft = leftSideEndoder.getRate();
 	   	/*Compute all the working error variables*/
-	   	double error = getSpeedError(eCodeReading,leftSpeed);
+	   	double error = getSpeedError(eCodeReadingLeft,leftSpeed);
 	   	double dErr = 0;
 		errSumLeftSpeed += (error * timeChange);
 		dErr = (error - lastErrLeftSpeed) / timeChange;
@@ -126,9 +146,9 @@ public class Chassis extends Subsystem{
 		/*Compute PID Output*/
 		double leftPower = skp * error + ski * errSumLeftSpeed + skd * dErr;
 	   
-		eCodeReading = rightSideEndoder.getRate();
+		double eCodeReadingRight = rightSideEndoder.getRate();
 		/*Compute all the working error variables*/
-		error = getSpeedError(eCodeReading,rightSpeed);
+		error = getSpeedError(eCodeReadingRight,rightSpeed);
 		dErr = 0;
 		errSumRightSpeed += (error * timeChange);
 		dErr = (error - lastErrRightSpeed) / timeChange;
@@ -138,40 +158,57 @@ public class Chassis extends Subsystem{
 		lastTimeSpeed = now;
 
 		double rightPower = skp * error + ski * errSumRightSpeed + skd * dErr;
-	   
-	   ChangePower(leftPower, rightPower);
+		
+		autoShift((eCodeReadingLeft + eCodeReadingRight)/2);
+		
+		ChangePower(leftPower, rightPower);
 	}
 	
-	private static double getSpeedError(double currentSpeed, double targetSpeed){
+	private void autoShift(double speed){
+		if(shiftTarget){
+			if(speed > MAX_LOW_GEAR_SPEED * LOW_GEAR_SHIFT_PERCENT_HIGH){
+				shifter.set(true);
+			}
+			else if(speed > MAX_LOW_GEAR_SPEED * LOW_GEAR_SHIFT_PERCENT_LOW) {
+				shifter.set(false);
+			}
+		}
+		else{
+			shifter.set(false);
+		}
+	}
+	
+	private double getSpeedError(double currentSpeed, double targetSpeed){
+		double maxSpeed = (shiftTarget)? MAX_LOW_GEAR_SPEED : MAX_HIGH_GEAR_SPEED;
 		return (currentSpeed-(targetSpeed * maxSpeed))/maxSpeed;
 	}
 	
-	public static double getLeftRate(){
+	public double getLeftRate(){
 		return leftSideEndoder.getRate();
 	}
 	
-	public static double getRightRate(){
+	public double getRightRate(){
 		return rightSideEndoder.getRate();
 	}
 	
-	public static double getLeftDist(){
+	public double getLeftDist(){
 		return leftSideEndoder.getDistance();
 	}
 	
-	public static double getRightDist(){
+	public double getRightDist(){
 		return rightSideEndoder.getDistance();
 	}
 	
-	public static double getAngle(){
+	public double getAngle(){
 		return gyro.getAngle();
 	}
 	
-	public static void resetEncoders(){
+	public void resetEncoders(){
 		leftSideEndoder.reset();
 		rightSideEndoder.reset();
 	}
 	
-	public static void resetGyro(){
+	public void resetGyro(){
 		gyro.reset();
 	}
 
