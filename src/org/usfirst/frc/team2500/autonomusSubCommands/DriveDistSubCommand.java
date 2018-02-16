@@ -1,10 +1,8 @@
 package org.usfirst.frc.team2500.autonomusSubCommands;
 
-import org.usfirst.frc.team2500.robot.Robot;
 import org.usfirst.frc.team2500.subSystems.Chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class DriveDistSubCommand extends Command {
 	

@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2500.driverStation;
 
+import org.usfirst.frc.team2500.subSystemCommands.ShiftCommand;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -32,7 +34,7 @@ public class Controller {
     	
     	createDriverstaion();
     	
-    	new JoystickButton(pilot,0);
+    	new JoystickButton(pilot,GamePad.B).whenPressed(new ShiftCommand());;
     	
     	initialized = true;
     }

@@ -14,18 +14,12 @@ public class DriveChassis extends Command{
         requires(Chassis.getInstance());
         this.speedScaler = speedScaler;
     }
-
-    protected void initialize() {
-    	
-    }
     
     protected void execute(){
     	double turnValue = Controller.Pilot_Steering() * speedScaler;
     	System.out.println("turnValue: " + turnValue);
     	double moveValue = Controller.Pilot_Throttle() * speedScaler;
     	System.out.println("moveValue: " + moveValue);
-    	
-    	Chassis.getInstance().shift(Controller.Pilot_Shift());
     	
     	Chassis.getInstance().ChangeSpeed(turnValue, moveValue);
     }
