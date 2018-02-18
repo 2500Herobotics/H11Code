@@ -1,8 +1,8 @@
-package org.usfirst.frc.team2500.autonomusSubCommands;
+package org.usfirst.frc.team2500.autonomous.SubCommands;
 
 import org.usfirst.frc.team2500.robot.Robot;
-import org.usfirst.frc.team2500.subSystems.Chassis;
-import org.usfirst.frc.team2500.subSystems.Unloader;
+import org.usfirst.frc.team2500.subSystems.chassis.Chassis;
+import org.usfirst.frc.team2500.subSystems.loader.Loader;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -25,7 +25,7 @@ public class UnloadSubCommand extends Command {
 		currentTime += deltaTime;
 		timeLeft -= deltaTime;
 		
-		Robot.unloader.setPower(1);
+//		Robot.unloader.setPower(1);
 	}
 
 	@Override

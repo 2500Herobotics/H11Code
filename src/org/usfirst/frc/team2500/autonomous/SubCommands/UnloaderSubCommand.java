@@ -1,4 +1,4 @@
-package org.usfirst.frc.team2500.autonomusSubCommands;
+package org.usfirst.frc.team2500.autonomous.SubCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;

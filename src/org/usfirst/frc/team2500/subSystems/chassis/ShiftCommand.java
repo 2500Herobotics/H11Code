@@ -1,6 +1,4 @@
-package org.usfirst.frc.team2500.subSystemCommands;
-
-import org.usfirst.frc.team2500.subSystems.Chassis;
+package org.usfirst.frc.team2500.subSystems.chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -12,7 +10,7 @@ public class ShiftCommand extends Command {
     	finnished = false;
     	
     	Chassis.getInstance().shift();
-
+    	
     	finnished = true;
     }
 	

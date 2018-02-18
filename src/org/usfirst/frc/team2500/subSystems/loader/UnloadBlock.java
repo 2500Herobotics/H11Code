@@ -1,13 +1,13 @@
-package org.usfirst.frc.team2500.subSystemCommands;
+package org.usfirst.frc.team2500.subSystems.loader;
 
 import org.usfirst.frc.team2500.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class LoadBlock extends Command {
+public class UnloadBlock extends Command {
 
-    public LoadBlock() {
-        requires(Robot.unloader);
+    public UnloadBlock() {
+        requires(Loader.getInstance());
         setTimeout(.9);
     }
 
@@ -16,7 +16,8 @@ public class LoadBlock extends Command {
     }
 
     protected void execute() {
-    	Robot.unloader.setPower(-1);;
+    	Loader.getInstance().setArm(true);
+    	Loader.getInstance().setPower(1);
     }
 
     protected boolean isFinished() {

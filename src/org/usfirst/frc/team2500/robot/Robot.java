@@ -9,18 +9,17 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-//auto imports
-import org.usfirst.frc.team2500.autonomus.AutoBaseLine;
-import org.usfirst.frc.team2500.autonomus.AutoCentor;
-import org.usfirst.frc.team2500.autonomus.AutoLeftSwitch;
-import org.usfirst.frc.team2500.autonomus.AutoRightSwitch;
+import org.usfirst.frc.team2500.autonomous.AutoBaseLine;
+import org.usfirst.frc.team2500.autonomous.AutoCentor;
+import org.usfirst.frc.team2500.autonomous.AutoLeftSwitch;
+import org.usfirst.frc.team2500.autonomous.AutoRightSwitch;
 //driverstaion imports
 import org.usfirst.frc.team2500.driverStation.Controller;
-import org.usfirst.frc.team2500.subSystemCommands.DriveChassis;
-import org.usfirst.frc.team2500.subSystems.Chassis;
-import org.usfirst.frc.team2500.subSystems.Climber;
-import org.usfirst.frc.team2500.subSystems.Lift;
-import org.usfirst.frc.team2500.subSystems.Unloader;
+import org.usfirst.frc.team2500.subSystems.chassis.Chassis;
+import org.usfirst.frc.team2500.subSystems.chassis.DriveChassis;
+import org.usfirst.frc.team2500.subSystems.climber.Climber;
+import org.usfirst.frc.team2500.subSystems.lift.Lift;
+import org.usfirst.frc.team2500.subSystems.loader.Loader;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -33,16 +32,6 @@ public class Robot extends IterativeRobot {
 
 	Command autonomousCommand;
 	SendableChooser<Command> autonomousChooser = new SendableChooser<>();
-
-	public static DriveChassis chassis;
-	public static Climber climber ;
-	public static Lift lift;
-	public static Unloader unloader;
-	
-	//Command dataLogger;
-	
-	UsbCamera camera1;
-	UsbCamera camera2;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -53,19 +42,12 @@ public class Robot extends IterativeRobot {
 		
 		Controller.initialize();
 		
-		Climber.initialize();
-		
-		unloader = new Unloader();
-		
 		autonomousChooser.addDefault("Default Auto", new AutoBaseLine());
 		autonomousChooser.addObject("Base Line", new AutoBaseLine());
 		autonomousChooser.addObject("Left Switch", new AutoLeftSwitch());
 		autonomousChooser.addObject("Centor", new AutoCentor());
 		autonomousChooser.addObject("Right Switch", new AutoRightSwitch());
 		SmartDashboard.putData("Auto mode", autonomousChooser);
-
-//		camera1 = CameraServer.getInstance().startAutomaticCapture(0);
-//		camera2 = CameraServer.getInstance().startAutomaticCapture(1);
 	}
 	
 	/**
@@ -105,7 +87,7 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 		
-		chassis.start();
+		new DriveChassis(1).start();
 	}
 
 	/**

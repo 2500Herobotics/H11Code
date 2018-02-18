@@ -1,8 +1,7 @@
-package org.usfirst.frc.team2500.subSystemCommands;
+package org.usfirst.frc.team2500.subSystems.chassis;
 
 import org.usfirst.frc.team2500.driverStation.Controller;
 import org.usfirst.frc.team2500.robot.Robot;
-import org.usfirst.frc.team2500.subSystems.Chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
 

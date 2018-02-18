@@ -1,8 +1,8 @@
-package org.usfirst.frc.team2500.autonomus;
+package org.usfirst.frc.team2500.autonomous;
 
-import org.usfirst.frc.team2500.autonomusSubCommands.DriveSubCommand;
-import org.usfirst.frc.team2500.autonomusSubCommands.UnloadSubCommand;
-import org.usfirst.frc.team2500.autonomusSubCommands.UnloaderSubCommand;
+import org.usfirst.frc.team2500.autonomous.SubCommands.DriveSubCommand;
+import org.usfirst.frc.team2500.autonomous.SubCommands.UnloadSubCommand;
+import org.usfirst.frc.team2500.autonomous.SubCommands.UnloaderSubCommand;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;

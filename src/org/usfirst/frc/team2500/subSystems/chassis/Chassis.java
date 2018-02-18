@@ -1,4 +1,6 @@
-package org.usfirst.frc.team2500.subSystems;
+package org.usfirst.frc.team2500.subSystems.chassis;
+
+import org.usfirst.frc.team2500.robot.RobotPorts;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -7,36 +9,20 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Chassis extends Subsystem{
-
-	private final int LEFT_ENCODER_PORT1 = 0;
-	private final int LEFT_ENCODER_PORT2 = 1;
-	private final int LEFT_ENCODER_PORT3 = 1;
+	
 	private Encoder leftSideEndoder;
 	
-	private final int RIGHT_ENCODER_PORT1 = 2;
-	private final int RIGHT_ENCODER_PORT2 = 3;
-	private final int RIGHT_ENCODER_PORT3 = 3;
 	private Encoder rightSideEndoder;
-	
-	
 	
 	private AHRS gyro;
 	
+	private Victor leftSideMotor;
 	
+	private Victor rightSideMotor;
 	
-	private final int LEFT_MOTOR_PORT1 = 6;
-	private final int LEFT_MOTOR_PORT2 = 7;
-	private Victor leftSideMotor1,leftSideMotor2;
-	
-	private final int RIGHT_MOTOR_PORT1 = 8;
-	private final int RIGHT_MOTOR_PORT2 = 9;
-	private Victor rightSideMotor1,rightSideMotor2;
-	
-	
-	
-	private final int SHIFTER_PORT = 0;
 	private Solenoid shifter;
 	
 	private boolean shiftTarget;
@@ -58,8 +44,8 @@ public class Chassis extends Subsystem{
 	
 	private Chassis(){
 
-		leftSideEndoder = new Encoder(LEFT_ENCODER_PORT1,LEFT_ENCODER_PORT2,LEFT_ENCODER_PORT3);
-		rightSideEndoder = new Encoder(RIGHT_ENCODER_PORT1,RIGHT_ENCODER_PORT2,RIGHT_ENCODER_PORT3);
+		leftSideEndoder = new Encoder(RobotPorts.LEFT_ENCODER_PORT1,RobotPorts.LEFT_ENCODER_PORT2,RobotPorts.LEFT_ENCODER_PORT3);
+		rightSideEndoder = new Encoder(RobotPorts.RIGHT_ENCODER_PORT1,RobotPorts.RIGHT_ENCODER_PORT2,RobotPorts.RIGHT_ENCODER_PORT3);
 		leftSideEndoder.setDistancePerPulse(1);
 		leftSideEndoder.reset();
 		rightSideEndoder.setDistancePerPulse(1);
@@ -68,24 +54,20 @@ public class Chassis extends Subsystem{
 		gyro = new AHRS(SPI.Port.kMXP);
 		gyro.reset();
 		
-		leftSideMotor1 = new Victor(LEFT_MOTOR_PORT1);
-		leftSideMotor2 = new Victor(LEFT_MOTOR_PORT2);
+		leftSideMotor = new Victor(RobotPorts.LEFT_DRIVE_PORT);
 
-		rightSideMotor1 = new Victor(RIGHT_MOTOR_PORT1);
-		rightSideMotor2 = new Victor(RIGHT_MOTOR_PORT2);
+		rightSideMotor = new Victor(RobotPorts.RIGHT_DRIVE_PORT);
 		
-		shifter = new Solenoid(SHIFTER_PORT);
+		shifter = new Solenoid(RobotPorts.SHIFTER_PORT);
 		
 		shiftTarget = false;
 	}
 
 	// call to change the power given to the motor
 	public void ChangePower(double powerL,double powerR){
-		leftSideMotor1.set(powerL);
-		leftSideMotor2.set(powerL);
+		leftSideMotor.set(powerL);
 		
-		rightSideMotor1.set(powerR);
-		rightSideMotor2.set(powerR);
+		rightSideMotor.set(powerR);
 	}
 
 	public void shift(boolean setShift){
@@ -94,6 +76,7 @@ public class Chassis extends Subsystem{
 	
 	public void shift(){
 		shiftTarget = !shiftTarget;
+		SmartDashboard.putBoolean("Gear",shiftTarget);
 	}
 	
 	public void arcadeDrive(double turnValue, double moveValue){

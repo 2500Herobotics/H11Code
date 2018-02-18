@@ -1,6 +1,6 @@
-package org.usfirst.frc.team2500.autonomusSubCommands;
+package org.usfirst.frc.team2500.autonomous.SubCommands;
 
-import org.usfirst.frc.team2500.subSystems.Chassis;
+import org.usfirst.frc.team2500.subSystems.chassis.Chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
 

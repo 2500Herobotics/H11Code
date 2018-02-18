@@ -1,14 +1,14 @@
-package org.usfirst.frc.team2500.subSystemCommands;
+package org.usfirst.frc.team2500.subSystems.lift;
 
 import org.usfirst.frc.team2500.robot.Robot;
+import org.usfirst.frc.team2500.subSystems.climber.Climber;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class UnloadBlock extends Command {
+public class IncreaseFloor extends Command {
 
-    public UnloadBlock() {
-        requires(Robot.unloader);
-        setTimeout(.9);
+    public IncreaseFloor() {
+    	
     }
 
     protected void initialize() {
@@ -16,7 +16,7 @@ public class UnloadBlock extends Command {
     }
 
     protected void execute() {
-    	Robot.unloader.setPower(1);
+    	Lift.getInstance().increaseFloor();
     }
 
     protected boolean isFinished() {
