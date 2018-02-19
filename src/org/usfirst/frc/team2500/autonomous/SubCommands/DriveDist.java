@@ -4,7 +4,7 @@ import org.usfirst.frc.team2500.subSystems.chassis.Chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveDistSubCommand extends Command {
+public class DriveDist extends Command {
 	
 	private double leftDistance;
 	private double rightDistance;
@@ -13,7 +13,7 @@ public class DriveDistSubCommand extends Command {
 	
 	private boolean finnished = false;
 	
-	public DriveDistSubCommand(double leftDistance, double rightDistance){
+	public DriveDist(double leftDistance, double rightDistance){
 		requires(Chassis.getInstance());
 		this.leftDistance = leftDistance;
 		this.rightDistance = rightDistance;

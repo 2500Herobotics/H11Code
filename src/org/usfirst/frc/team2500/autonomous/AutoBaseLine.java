@@ -11,15 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoBaseLine extends CommandGroup {
 
 	public  AutoBaseLine() {
-    	addSequential(new DriveSubCommand(1,1,0));
-    }
-	
-
-    /**
-     * This function is called periodically during autonomous
-     */
-    public void execute() {
-    	
+    	addSequential(new DriveSubCommand(AutoDistances.BASE_LINE_DIST,AutoDistances.BASE_LINE_DIST,0));
     }
     
     /**

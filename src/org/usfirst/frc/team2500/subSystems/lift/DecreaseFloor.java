@@ -5,14 +5,14 @@ import org.usfirst.frc.team2500.subSystems.climber.Climber;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class IncreaseFloor extends Command {
+public class DecreaseFloor extends Command {
 
-    public IncreaseFloor() {
+    public DecreaseFloor() {
     	
     }
 
     protected void initialize() {
-    	Lift.getInstance().increaseFloor();
+    	Lift.getInstance().decreaseFloor();
     }
     
     protected boolean isFinished() {

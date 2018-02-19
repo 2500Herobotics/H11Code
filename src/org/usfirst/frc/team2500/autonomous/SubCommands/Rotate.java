@@ -4,7 +4,7 @@ import org.usfirst.frc.team2500.subSystems.chassis.Chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class RotateSubCommand extends Command {
+public class Rotate extends Command {
 	
 	double degrees;
 	
@@ -12,7 +12,7 @@ public class RotateSubCommand extends Command {
 	
 	boolean finished = false;
 	
-	public RotateSubCommand(double degrees){
+	public Rotate(double degrees){
 		requires(Chassis.getInstance());
 		this.degrees = degrees;
 		finished = false;
