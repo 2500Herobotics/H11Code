@@ -7,7 +7,7 @@ public class Unloader extends CommandGroup {
 
 	// true - Left
 	// false - Right
-	public UnloaderSubCommand(double degrees,int floor,double dist){
+	public Unloader(double degrees,int floor,double dist){
 
 		addSequential(new Rotate(degrees));
 
@@ -15,19 +15,9 @@ public class Unloader extends CommandGroup {
 
 		addSequential(new HoldBlock(floor,1));
 		addParallel(new RetractArms());
-		addParallel(new DriveDist(dist,dist,degrees));
+		addParallel(new Drive(dist,dist,degrees));
 
 		addSequential(new HoldBlock(floor,1));
 		addParallel(new UnloadBlock());
-		
-
-		if(gameData.charAt(1) == robotSide){
-			addSequential(new DriveSubCommand(1, 1, 0));
-	    	addSequential(new UnloadSubCommand(time));
-		}
-		else if(gameData.charAt(1) == robotSide){
-	    	addSequential(new RotateSubCommand(degrees));
-	    	addSequential(new Unloader(time));
-		}
 	}
 }

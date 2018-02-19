@@ -5,7 +5,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class Drive extends CommandGroup {
 	
 	public Drive(double leftDistence, double rightDistence,double degrees){
-    	addSequential(new RotateSubCommand(degrees));
-    	addSequential(new DriveDistSubCommand(leftDistence, rightDistence));
+		//Turn to a degree
+    	addSequential(new Rotate(degrees));
+    	addSequential(new DriveDist(leftDistence, rightDistence));
 	}
 }

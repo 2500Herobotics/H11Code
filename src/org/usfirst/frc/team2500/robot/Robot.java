@@ -1,8 +1,6 @@
 package org.usfirst.frc.team2500.robot;
 
 //wpi imports
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -11,15 +9,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team2500.autonomous.AutoBaseLine;
 import org.usfirst.frc.team2500.autonomous.AutoCentor;
-import org.usfirst.frc.team2500.autonomous.AutoLeftSwitch;
-import org.usfirst.frc.team2500.autonomous.AutoRightSwitch;
+import org.usfirst.frc.team2500.autonomous.AutoLeft;
+import org.usfirst.frc.team2500.autonomous.AutoRight;
 //driverstaion imports
 import org.usfirst.frc.team2500.driverStation.Controller;
-import org.usfirst.frc.team2500.subSystems.chassis.Chassis;
 import org.usfirst.frc.team2500.subSystems.chassis.DriveChassis;
-import org.usfirst.frc.team2500.subSystems.climber.Climber;
-import org.usfirst.frc.team2500.subSystems.lift.Lift;
-import org.usfirst.frc.team2500.subSystems.loader.Loader;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -44,9 +38,9 @@ public class Robot extends IterativeRobot {
 		
 		autonomousChooser.addDefault("Default Auto", new AutoBaseLine());
 		autonomousChooser.addObject("Base Line", new AutoBaseLine());
-		autonomousChooser.addObject("Left Switch", new AutoLeftSwitch());
+		autonomousChooser.addObject("Left Switch", new AutoLeft());
 		autonomousChooser.addObject("Centor", new AutoCentor());
-		autonomousChooser.addObject("Right Switch", new AutoRightSwitch());
+		autonomousChooser.addObject("Right Switch", new AutoRight());
 		SmartDashboard.putData("Auto mode", autonomousChooser);
 	}
 	
@@ -57,7 +51,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		autonomousCommand.cancel();
+		
 	}
 	
 	@Override

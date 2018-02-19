@@ -1,8 +1,7 @@
 package org.usfirst.frc.team2500.autonomous;
 
-import org.usfirst.frc.team2500.autonomous.SubCommands.DriveSubCommand;
-import org.usfirst.frc.team2500.autonomous.SubCommands.UnloadSubCommand;
-import org.usfirst.frc.team2500.autonomous.SubCommands.UnloaderSubCommand;
+
+import org.usfirst.frc.team2500.autonomous.SubCommands.Drive;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
@@ -10,8 +9,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutoBaseLine extends CommandGroup {
 
-	public  AutoBaseLine() {
-    	addSequential(new DriveSubCommand(AutoDistances.BASE_LINE_DIST,AutoDistances.BASE_LINE_DIST,0));
+	public void initialize() {
+    	addSequential(new Drive(AutoDistances.BASE_LINE_DIST,AutoDistances.BASE_LINE_DIST,0));
     }
     
     /**

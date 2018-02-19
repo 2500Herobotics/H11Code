@@ -22,6 +22,8 @@ public class Lift extends PIDSubsystem {
 	private Encoder encoder;
 	private DigitalInput limitSwitch;
 
+	public int targetFloor;
+
 	public static Lift instance;
 	
 	public static Lift getInstance()
@@ -40,7 +42,7 @@ public class Lift extends PIDSubsystem {
 		encoder = new Encoder(RobotPorts.LIFT_ENCODER_PORT1, RobotPorts.LIFT_ENCODER_PORT2, RobotPorts.LIFT_ENCODER_PORT3);
 		limitSwitch = new DigitalInput(RobotPorts.LIFT_LIMIT_SWITCH);
 		new InternalButton(limitSwitch.get()).whenPressed(new ResetEncoder());
-		targetFloor = 0;
+		setFloor(0);
 		start();
 	}
 
@@ -71,14 +73,12 @@ public class Lift extends PIDSubsystem {
 		getPIDController().enable();
 	}
 
-	
-	public int targetFloor;
-
 	public void increaseFloor() {
 		targetFloor++;
 		if(targetFloor > 5){
 			targetFloor = 0;
 		}
+		setTarget(targetFloor);
 	}
 
 	public void decreaseFloor() {
@@ -86,6 +86,20 @@ public class Lift extends PIDSubsystem {
 		if(targetFloor < 5){
 			targetFloor = 5;
 		}
+		setTarget(targetFloor);
+	}
+	
+	public void setFloor(int floor){
+		if(floor > 5){
+			targetFloor = 5;
+		}
+		else if(floor < 5){
+			targetFloor = 0;
+		}
+		else{
+			targetFloor = floor;
+		}
+		setTarget(targetFloor);
 	}
 
 	//The heights
@@ -96,7 +110,7 @@ public class Lift extends PIDSubsystem {
 	private static final int SCALE_HIGH = 4;
 	private static final int CLIMB = 5;
 	
-	public void setTarget(){
+	public void setTarget(int targetFloor){
 		int target;
 		switch(targetFloor){
 		case 0:
