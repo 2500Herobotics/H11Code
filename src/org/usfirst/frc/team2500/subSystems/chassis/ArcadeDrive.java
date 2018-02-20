@@ -1,15 +1,14 @@
 package org.usfirst.frc.team2500.subSystems.chassis;
 
 import org.usfirst.frc.team2500.driverStation.Controller;
-import org.usfirst.frc.team2500.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveChassis extends Command{
+public class ArcadeDrive extends Command{
 
 	private final double speedScaler = 1;
 	
-    public DriveChassis() {
+    public ArcadeDrive() {
         requires(Chassis.getInstance());
         Chassis.getInstance().stopPID();
     }

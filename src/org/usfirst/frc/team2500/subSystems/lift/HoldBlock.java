@@ -1,6 +1,4 @@
-package org.usfirst.frc.team2500.autonomous.SubCommands;
-
-import org.usfirst.frc.team2500.subSystems.lift.Lift;
+package org.usfirst.frc.team2500.subSystems.lift;
 
 import edu.wpi.first.wpilibj.command.Command;
 

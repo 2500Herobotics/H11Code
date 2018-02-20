@@ -1,29 +1,45 @@
 package org.usfirst.frc.team2500.subSystems.chassis;
 
-import org.usfirst.frc.team2500.driverStation.Controller;
-import org.usfirst.frc.team2500.robot.Robot;
+import edu.wpi.first.wpilibj.command.PIDCommand;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-public class DriveChassis extends PIDCommand{
-
-	private final double speedScaler = 1;
+public class Rotate extends PIDCommand{
+	private final static double P = 1;
+	private final static double I = 1;
+	private final static double D = 1;
 	
-    public DriveChassis() {
+	private double degrees;
+	
+    public Rotate(double degrees) {
+        super("Rotate",P, I, D);
+        
+        this.degrees = degrees;
+        
         requires(Chassis.getInstance());
         Chassis.getInstance().stopPID();
+        
+		getPIDController().setContinuous(false);
+
+        setTimeout(2);
     }
-    
-    protected void execute(){
-        //TODO
-    	double turnValue = 1;
-    	System.out.println("turnValue: " + turnValue);
-    	
-    	Chassis.getInstance().arcadeDrive(turnValue, 0);
-    }
+	
+	public void initialize(){
+        
+		getPIDController().setSetpoint(degrees);
+		start();
+	}
+
+	@Override
+	protected double returnPIDInput() {
+		return Chassis.getInstance().getRotation();
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		Chassis.getInstance().arcadeDrive(0, output);
+	}
     
     protected boolean isFinished() {
-        return false;
+        return isTimedOut();
     }
 
     protected void end() {

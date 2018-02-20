@@ -13,7 +13,6 @@ import org.usfirst.frc.team2500.autonomous.AutoLeft;
 import org.usfirst.frc.team2500.autonomous.AutoRight;
 //driverstaion imports
 import org.usfirst.frc.team2500.driverStation.Controller;
-import org.usfirst.frc.team2500.subSystems.chassis.DriveChassis;
 
 /**
  * The VM is configured to automatically run this class, and to call the

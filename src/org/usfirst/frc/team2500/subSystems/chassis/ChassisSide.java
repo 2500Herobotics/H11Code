@@ -1,4 +1,5 @@
-package org.usfirst.frc.team2500.robot;
+package org.usfirst.frc.team2500.subSystems.chassis;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Talon;
@@ -22,7 +23,7 @@ public class ChassisSide extends PIDSubsystem {
 	public int targetFloor;
 	
 	public ChassisSide(int motor,int e1, int e2) {
-		super("Lift",P, I, D);
+		super("Chassis Side",P, I, D);
 		setAbsoluteTolerance(0.05);
 		getPIDController().setContinuous(false);
 		this.motor = new Talon(motor);

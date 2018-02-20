@@ -1,9 +1,12 @@
-
-
-import com.kauailabs.navx.frc.AHRS;
-
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.command.Subsystem;
+package org.usfirst.frc.team2500.subSystems.chassis;
+  
+ import org.usfirst.frc.team2500.robot.RobotPorts;
+  
+ import com.kauailabs.navx.frc.AHRS;
+  
+ import edu.wpi.first.wpilibj.SPI;
+ import edu.wpi.first.wpilibj.Solenoid;
+ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Chassis extends Subsystem{
 
@@ -22,13 +25,13 @@ public class Chassis extends Subsystem{
 
 	private Solenoid shifter;
 
-	private boolean shiftTarget;
+	public boolean shiftTarget;
 
 	private AHRS gyro;
 	
 	public Chassis(){
-		leftChassis = new ChassisSide(0,0,1);
-		rightChassis = new ChassisSide(1,2,3);
+		leftChassis = new ChassisSide(RobotPorts.LEFT_DRIVE_PORT,RobotPorts.LEFT_ENCODER_PORT1,RobotPorts.LEFT_ENCODER_PORT2);
+		rightChassis = new ChassisSide(RobotPorts.RIGHT_DRIVE_PORT,RobotPorts.RIGHT_ENCODER_PORT1,RobotPorts.RIGHT_ENCODER_PORT2);
 
 		gyro = new AHRS(SPI.Port.kMXP);
 		gyro.reset();
@@ -38,7 +41,7 @@ public class Chassis extends Subsystem{
 	
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new DriveChassis());
+		setDefaultCommand(new ArcadeDrive());
 	}
 	
 	public void resetEncoder(){
@@ -54,18 +57,26 @@ public class Chassis extends Subsystem{
 	public void printDistace(){
 		System.out.println(leftChassis.getDistance() + "   " + rightChassis.getDistance());
 	}
+	
+	public double getAverageRate(){
+		return (leftChassis.getRate() + rightChassis.getRate())/2;
+	}
+	
+	public double getRotation(){
+		return gyro.getAngle();
+	}
 
 	private final double MAX_HIGH_GEAR_SPEED = 2;
 	private final double MAX_LOW_GEAR_SPEED = 1;
 
-	private final double Min_MAX_CONVERTER = MAX_LOW_GEAR_SPEED/MAX_HIGH_GEAR_SPEED;
+	private final double MIN_MAX_CONVERTER = 1/(MAX_LOW_GEAR_SPEED/MAX_HIGH_GEAR_SPEED);
 
 	private final double LOW_GEAR_SHIFT_PERCENT_HIGH = 0.9;
 	private final double LOW_GEAR_SHIFT_PERCENT_LOW = 0.8;
 
 	public void shiftingTankDrive(double left,double right){
 		if(shiftTarget){
-			double averageRate = (leftChassis.getRate() + rightChassis.getRate())/2;
+			double averageRate = getAverageRate();
 
 			if(averageRate > MAX_LOW_GEAR_SPEED * LOW_GEAR_SHIFT_PERCENT_HIGH){
 				shifter.set(true);
@@ -76,7 +87,7 @@ public class Chassis extends Subsystem{
 				shifter.set(false);
 			}
 
-			tankDrive(left/Min_MAX_CONVERTER,right/Min_MAX_CONVERTER);
+			tankDrive(left*MIN_MAX_CONVERTER,right*MIN_MAX_CONVERTER);
 		}
 		else{
 			tankDrive(left,right);
@@ -102,10 +113,7 @@ public class Chassis extends Subsystem{
 	    double leftMotorOutput;
 	    double rightMotorOutput;
 		
-		double max = fabs(throttle);
-		if (fabs(turn)>max){
-			max = fabs(turn);
-		}
+		double max = Math.max(throttle, turn);
 		double sum = throttle + turn;
 		double dif = throttle - turn;
 

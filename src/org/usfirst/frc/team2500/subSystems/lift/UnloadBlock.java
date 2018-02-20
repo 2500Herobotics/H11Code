@@ -1,8 +1,7 @@
-package org.usfirst.frc.team2500.autonomous.SubCommands;
+package org.usfirst.frc.team2500.subSystems.lift;
 
 import org.usfirst.frc.team2500.robot.Robot;
 import org.usfirst.frc.team2500.subSystems.chassis.Chassis;
-import org.usfirst.frc.team2500.subSystems.lift.Lift;
 import org.usfirst.frc.team2500.subSystems.loader.Loader;
 
 import edu.wpi.first.wpilibj.command.Command;

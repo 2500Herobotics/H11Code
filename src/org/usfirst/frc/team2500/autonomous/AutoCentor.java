@@ -1,11 +1,10 @@
 package org.usfirst.frc.team2500.autonomous;
 
 
-import org.usfirst.frc.team2500.autonomous.SubCommands.Drive;
-import org.usfirst.frc.team2500.autonomous.SubCommands.Unloader;
+import org.usfirst.frc.team2500.subSystems.chassis.Drive;
+import org.usfirst.frc.team2500.subSystems.lift.Unloader;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutoCentor extends CommandGroup {

@@ -19,8 +19,9 @@ public class Lift extends PIDSubsystem {
 	private final static double D = 1;
 	
 	private Victor lift_motor;
-	private Encoder encoder;
-	private DigitalInput limitSwitch;
+	
+//	private Encoder encoder;
+//	private DigitalInput limitSwitch;
 
 	public int targetFloor;
 
@@ -39,21 +40,23 @@ public class Lift extends PIDSubsystem {
 		setAbsoluteTolerance(0.05);
 		getPIDController().setContinuous(false);
 		lift_motor = new Victor(RobotPorts.LIFT);
-		encoder = new Encoder(RobotPorts.LIFT_ENCODER_PORT1, RobotPorts.LIFT_ENCODER_PORT2, RobotPorts.LIFT_ENCODER_PORT3);
-		limitSwitch = new DigitalInput(RobotPorts.LIFT_LIMIT_SWITCH);
-		new InternalButton(limitSwitch.get()).whenPressed(new ResetEncoder());
-		setFloor(0);
-		start();
+//		encoder = new Encoder(RobotPorts.LIFT_ENCODER_PORT1, RobotPorts.LIFT_ENCODER_PORT2);
+//		limitSwitch = new DigitalInput(RobotPorts.LIFT_LIMIT_SWITCH);
+//		new InternalButton(limitSwitch.get()).whenPressed(new ResetEncoder());
+//		setFloor(0);
+		
+		stop();
 	}
 
 	public void resetEncoder(){
-		encoder.reset();
+//		encoder.reset();
 	}
 	
 
 	@Override
 	protected double returnPIDInput() {
-		return encoder.getRate();
+//		return encoder.getDistance();
+		return 0;
 	}
 
 	@Override
