@@ -5,7 +5,7 @@ import org.usfirst.frc.team2500.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveChassis extends Command{
+public class DriveChassis extends PIDCommand{
 
 	private final double speedScaler = 1;
 	
@@ -15,12 +15,11 @@ public class DriveChassis extends Command{
     }
     
     protected void execute(){
-    	double moveValue = Controller.Pilot_Throttle() * speedScaler;
-    	System.out.println("moveValue: " + moveValue);
-    	double turnValue = Controller.Pilot_Steering() * speedScaler;
+        //TODO
+    	double turnValue = 1;
     	System.out.println("turnValue: " + turnValue);
     	
-    	Chassis.getInstance().arcadeDrive(turnValue, moveValue);
+    	Chassis.getInstance().arcadeDrive(turnValue, 0);
     }
     
     protected boolean isFinished() {

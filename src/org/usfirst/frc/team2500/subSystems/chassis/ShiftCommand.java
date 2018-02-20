@@ -9,14 +9,14 @@ public class ShiftCommand extends Command {
     protected void initialize() {
     	finnished = false;
     	
-    	Chassis.getInstance().shift();
+    	Chassis.getInstance().shiftTarget = !Chassis.getInstance().shiftTarget;
     	
     	finnished = true;
     }
 	
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return finnished;
 	}
 
 }
