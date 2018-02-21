@@ -62,6 +62,14 @@ public class Chassis extends Subsystem{
 		return (leftChassis.getRate() + rightChassis.getRate())/2;
 	}
 	
+	public double getLeftRate(){
+		return leftChassis.getRate();
+	}
+	
+	public double getRightRate(){
+		return rightChassis.getRate();
+	}
+	
 	public double getRotation(){
 		return gyro.getAngle();
 	}
@@ -76,7 +84,7 @@ public class Chassis extends Subsystem{
 
 	public void shiftingTankDrive(double left,double right){
 		if(shiftTarget){
-			double averageRate = getAverageRate();
+			double averageRate = Math.abs(getAverageRate());
 
 			if(averageRate > MAX_LOW_GEAR_SPEED * LOW_GEAR_SHIFT_PERCENT_HIGH){
 				shifter.set(true);
@@ -105,48 +113,33 @@ public class Chassis extends Subsystem{
 	}
 	
 	public void arcadeDrive(double throttle,double turn, boolean square){
-		if(square){
-			throttle = Math.pow(throttle, 2);
-			turn = Math.pow(turn, 2);
-		}
 
 	    double leftMotorOutput;
 	    double rightMotorOutput;
-		
-		double max = Math.max(throttle, turn);
-		double sum = throttle + turn;
-		double dif = throttle - turn;
 
-		//Top Half
-	    if(throttle>=0)
-	    {
-			//Righ Half
-		    if(turn>=0) {
-				leftMotorOutput = max;
-				rightMotorOutput = dif;
-			}
-			//Left Half
-		    else {
-				leftMotorOutput = sum;
-				rightMotorOutput = max;
-		    }
-		}
-		//Bottom Half
-	    else
-	    {
-			//Righ Half
-		    if(turn>=0) {
-				leftMotorOutput = sum;
-				rightMotorOutput = -max;
-			}
-			//Left Half
-		    else {
-				leftMotorOutput = -max;
-				rightMotorOutput = dif;
-		    }
+	    double maxInput = Math.copySign(Math.max(Math.abs(throttle), Math.abs(turn)), throttle);
+
+	    if (throttle >= 0.0) {
+	      // First quadrant, else second quadrant
+	      if (turn >= 0.0) {
+	        leftMotorOutput = maxInput;
+	        rightMotorOutput = throttle - turn;
+	      } else {
+	        leftMotorOutput = throttle + turn;
+	        rightMotorOutput = maxInput;
+	      }
+	    } else {
+	      // Third quadrant, else fourth quadrant
+	      if (turn >= 0.0) {
+	        leftMotorOutput = throttle + turn;
+	        rightMotorOutput = maxInput;
+	      } else {
+	        leftMotorOutput = maxInput;
+	        rightMotorOutput = throttle - turn;
+	      }
 	    }
 	    
-	    shiftingTankDrive(leftMotorOutput,rightMotorOutput);
+	    shiftingTankDrive(leftMotorOutput,rightMotorOutput * -1);
 	}
 	
 	public void stopPID(){

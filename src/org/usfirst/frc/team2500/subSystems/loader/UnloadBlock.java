@@ -21,7 +21,7 @@ public class UnloadBlock extends Command {
     }
 
     protected boolean isFinished() {
-        return isTimedOut();
+        return true;
     }
 
     protected void end() {

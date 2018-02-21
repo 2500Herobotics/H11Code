@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutoCentor extends CommandGroup {
 	
-    public void initialize() {
+	public AutoCentor(){
     	//Get off of the wall so we can turn
     	addSequential(new Drive(AutoDistances.OFF_WALL_DIST,AutoDistances.OFF_WALL_DIST,0));
 		//Test what side the Switch is on and go to that side
@@ -23,5 +23,9 @@ public class AutoCentor extends CommandGroup {
 		addSequential(new Drive(AutoDistances.SWITCH_DIST,AutoDistances.SWITCH_DIST,0));
 		//Unload the block
 		addSequential(new Unloader(0, 1, 1));
+	}
+	
+    public void initialize() {
+    	
     }
 }

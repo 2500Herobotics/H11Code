@@ -31,7 +31,7 @@ public class Loader extends Subsystem {
 	}
 	
 	public void setPower(double speed){
-		wheels.set(speed);
+		wheels.set(speed * 0.99999);
 	}
 	
 	public void toggleArm(){

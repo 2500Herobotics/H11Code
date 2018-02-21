@@ -76,6 +76,6 @@ public class ChassisSide extends PIDSubsystem {
 	}
 	
 	public double getRate(){
-		return encoder.getDistance();
+		return encoder.getRate();
 	}
 }

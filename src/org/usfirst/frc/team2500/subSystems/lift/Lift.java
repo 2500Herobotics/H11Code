@@ -5,6 +5,7 @@ import org.usfirst.frc.team2500.subSystems.climber.Climber;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.InternalButton;
@@ -19,6 +20,7 @@ public class Lift extends PIDSubsystem {
 	private final static double D = 1;
 	
 	private Victor lift_motor;
+	private Solenoid piston;
 	
 //	private Encoder encoder;
 //	private DigitalInput limitSwitch;
@@ -40,12 +42,21 @@ public class Lift extends PIDSubsystem {
 		setAbsoluteTolerance(0.05);
 		getPIDController().setContinuous(false);
 		lift_motor = new Victor(RobotPorts.LIFT);
+		piston = new Solenoid(RobotPorts.OUTPUT_PISTON);
 //		encoder = new Encoder(RobotPorts.LIFT_ENCODER_PORT1, RobotPorts.LIFT_ENCODER_PORT2);
 //		limitSwitch = new DigitalInput(RobotPorts.LIFT_LIMIT_SWITCH);
 //		new InternalButton(limitSwitch.get()).whenPressed(new ResetEncoder());
 //		setFloor(0);
 		
 		stop();
+	}
+	
+	public void setPistons(boolean value){
+		piston.set(value);
+	}
+	
+	public void setSpeed(double speed){
+		lift_motor.set(speed);
 	}
 
 	public void resetEncoder(){
@@ -66,8 +77,9 @@ public class Lift extends PIDSubsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		
+//		setDefaultCommand(new MoveLift());
 	}
+	
 	public void stop(){
 		getPIDController().disable();
 	}

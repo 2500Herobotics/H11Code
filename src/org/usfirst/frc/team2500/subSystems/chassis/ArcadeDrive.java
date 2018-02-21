@@ -14,11 +14,8 @@ public class ArcadeDrive extends Command{
     }
     
     protected void execute(){
-    	double moveValue = Controller.Pilot_Throttle() * speedScaler;
-    	System.out.println("moveValue: " + moveValue);
-    	double turnValue = Controller.Pilot_Steering() * speedScaler;
-    	System.out.println("turnValue: " + turnValue);
-    	
+    	double turnValue = Controller.getTurn();
+    	double moveValue = Controller.getMove();
     	Chassis.getInstance().arcadeDrive(turnValue, moveValue);
     }
     

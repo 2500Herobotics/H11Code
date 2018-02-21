@@ -4,20 +4,15 @@ import org.usfirst.frc.team2500.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class LoadBlock extends Command {
+public class ToggleArms extends Command {
 
-    public LoadBlock() {
+    public ToggleArms() {
         requires(Loader.getInstance());
         setTimeout(.9);
     }
 
     protected void initialize() {
-    	
-    }
-
-    protected void execute() {
-    	Loader.getInstance().setArm(true);
-    	Loader.getInstance().setPower(-1);
+    	Loader.getInstance().toggleArm();
     }
 
     protected boolean isFinished() {

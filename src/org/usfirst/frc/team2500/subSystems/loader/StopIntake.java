@@ -4,9 +4,9 @@ import org.usfirst.frc.team2500.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class LoadBlock extends Command {
+public class StopIntake extends Command {
 
-    public LoadBlock() {
+    public StopIntake() {
         requires(Loader.getInstance());
         setTimeout(.9);
     }
@@ -17,7 +17,7 @@ public class LoadBlock extends Command {
 
     protected void execute() {
     	Loader.getInstance().setArm(true);
-    	Loader.getInstance().setPower(-1);
+    	Loader.getInstance().setPower(0);
     }
 
     protected boolean isFinished() {

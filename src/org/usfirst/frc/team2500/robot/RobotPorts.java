@@ -14,8 +14,8 @@ public class RobotPorts {
 	public static final int LEFT_ENCODER_PORT2 = 1;
 //	public static final int LEFT_ENCODER_PORT3 = 2;
 
-	public static final int RIGHT_ENCODER_PORT1 = 3;
-	public static final int RIGHT_ENCODER_PORT2 = 4;
+	public static final int RIGHT_ENCODER_PORT1 = 2;
+	public static final int RIGHT_ENCODER_PORT2 = 3;
 //	public static final int RIGHT_ENCODER_PORT3 = 5;
 
 	public static final int LIFT_ENCODER_PORT1 = 6;
@@ -26,6 +26,6 @@ public class RobotPorts {
 	
 	// Pneumaatics ports
 	public static final int SHIFTER_PORT = 0;
-	public static final int INTAKE_ARM = 0;
-	public static final int OUTPUT_PISTON = 0;
+	public static final int INTAKE_ARM = 1;
+	public static final int OUTPUT_PISTON = 2;
 }

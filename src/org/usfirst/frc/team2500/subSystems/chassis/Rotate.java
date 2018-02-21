@@ -23,9 +23,7 @@ public class Rotate extends PIDCommand{
     }
 	
 	public void initialize(){
-        
 		getPIDController().setSetpoint(degrees);
-		start();
 	}
 
 	@Override
