@@ -3,8 +3,9 @@ package org.usfirst.frc.team2500.subSystems.chassis;
  import org.usfirst.frc.team2500.robot.RobotPorts;
   
  import com.kauailabs.navx.frc.AHRS;
-  
- import edu.wpi.first.wpilibj.SPI;
+
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.SPI;
  import edu.wpi.first.wpilibj.Solenoid;
  import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -67,7 +68,7 @@ public class Chassis extends Subsystem{
 	}
 	
 	public double getRightRate(){
-		return rightChassis.getRate();
+		return -rightChassis.getRate();
 	}
 	
 	public double getRotation(){
@@ -150,5 +151,13 @@ public class Chassis extends Subsystem{
 	public void startPID(){
 		leftChassis.start();
 		rightChassis.start();
+	}
+
+	public void resetGyro() {
+		gyro.reset();
+	}
+
+	public PIDController getPIDController() {
+		return getPIDController();
 	}
 }

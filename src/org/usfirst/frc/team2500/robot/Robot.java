@@ -14,7 +14,6 @@ import org.usfirst.frc.team2500.autonomous.AutoRight;
 //driverstaion imports
 import org.usfirst.frc.team2500.driverStation.Controller;
 import org.usfirst.frc.team2500.subSystems.lift.Lift;
-import org.usfirst.frc.team2500.subSystems.loader.Loader;
 
 /**
  * The VM is configured to automatically run this class, and to call the

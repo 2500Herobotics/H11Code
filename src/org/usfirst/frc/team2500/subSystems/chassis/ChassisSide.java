@@ -26,6 +26,7 @@ public class ChassisSide extends PIDSubsystem {
 		super("Chassis Side",P, I, D);
 		setAbsoluteTolerance(0.05);
 		getPIDController().setContinuous(false);
+		getPIDController().setAbsoluteTolerance(2);
 		this.motor = new Talon(motor);
 
 		double pulceRate = 250/13208.5;
@@ -42,9 +43,24 @@ public class ChassisSide extends PIDSubsystem {
 		return encoder.getDistance();
 	}
 
+	int encoderTimeout = 0;
+	//Lock pid for dist if encoders arnt getting reading
+	boolean pidLock = false;
+	
 	@Override
 	protected void usePIDOutput(double output) {
-		motor.pidWrite(output);
+		motor.pidWrite(output * 0.3);
+		
+		if(output > 0 && encoder.getRate() == 0){
+			encoderTimeout++;
+			if(encoderTimeout > 100){
+				pidLock = true;
+				stop();
+			}
+		}
+		else{
+			encoderTimeout = 0;
+		}
 	}
 
 	@Override
@@ -56,7 +72,9 @@ public class ChassisSide extends PIDSubsystem {
 	}
 	
 	public void start(){
-		getPIDController().enable();
+		if(!pidLock){
+			getPIDController().enable();
+		}
 	}
 	
 	public void setTarget(double target){

@@ -8,14 +8,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutoLeft extends CommandGroup {
 	
-	/**
-     * This function is run once each time the robot enters autonomous mode
-     */	
-    public void initialize() {
+	public AutoLeft(){
     	// Move away from the wall to be able to turn
     	addSequential(new Drive(AutoDistances.OFF_WALL_DIST,AutoDistances.OFF_WALL_DIST,0));
-    	//Turn and move to the side of the switch
-    	addSequential(new Drive(AutoDistances.SCALE_FIRST_ALIGN_DIST,AutoDistances.SCALE_FIRST_ALIGN_DIST,AutoDistances.SCALE_FIRST_ALIGN_DEG_LEFT));
     	//Move past the switch
     	addSequential(new Drive(AutoDistances.SCALE_INTERSECTION_DIST,AutoDistances.SCALE_INTERSECTION_DIST,0));
     	
@@ -29,5 +24,12 @@ public class AutoLeft extends CommandGroup {
     	}
 		addSequential(new Drive(AutoDistances.SCALE_ALIGN_DIST,AutoDistances.SCALE_ALIGN_DIST,0));
     	addSequential(new Unloader(degree, 4, AutoDistances.SCALE_DIST));
+	}
+	
+	/**
+     * This function is run once each time the robot enters autonomous mode
+     */	
+    public void initialize() {
+    	
     }
 }

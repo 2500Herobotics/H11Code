@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj.command.Command;
 public class MoveLift extends Command {
 
     protected void initialize() {
-//    	requires(Lift.getInstance());
+    	requires(Lift.getInstance());
     	Lift.getInstance().stop();
     }
     
     protected void execute(){
-//    	Lift.getInstance().setSpeed(Controller.Get_Triggers());
+    	Lift.getInstance().setSpeed(Controller.Get_Triggers());
     }
     
     protected boolean isFinished() {

@@ -1,10 +1,7 @@
 package org.usfirst.frc.team2500.driverStation;
 
 import org.usfirst.frc.team2500.subSystems.chassis.ShiftCommand;
-import org.usfirst.frc.team2500.subSystems.loader.LoadBlock;
-import org.usfirst.frc.team2500.subSystems.loader.StopIntake;
-import org.usfirst.frc.team2500.subSystems.loader.ToggleArms;
-import org.usfirst.frc.team2500.subSystems.loader.UnloadBlock;
+import org.usfirst.frc.team2500.subSystems.loader.ToggleClaw;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -29,12 +26,8 @@ public class Controller {
     	
     	createDriverstaion();
 
-    	new JoystickButton(pilot,GamePad.A).whenPressed(new ToggleArms());
+    	new JoystickButton(pilot,GamePad.A).whenPressed(new ToggleClaw());
     	new JoystickButton(pilot,GamePad.B).whenPressed(new ShiftCommand());
-    	new JoystickButton(pilot,GamePad.LB).whileHeld(new LoadBlock());
-    	new JoystickButton(pilot,GamePad.RB).whileHeld(new UnloadBlock());
-    	new JoystickButton(pilot,GamePad.LB).whenReleased(new StopIntake());
-    	new JoystickButton(pilot,GamePad.RB).whenReleased(new StopIntake());
     	
     	initialized = true;
     }

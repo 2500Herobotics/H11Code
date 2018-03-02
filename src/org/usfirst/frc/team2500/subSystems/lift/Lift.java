@@ -1,16 +1,9 @@
 package org.usfirst.frc.team2500.subSystems.lift;
 
 import org.usfirst.frc.team2500.robot.RobotPorts;
-import org.usfirst.frc.team2500.subSystems.climber.Climber;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.InternalButton;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 public class Lift extends PIDSubsystem {

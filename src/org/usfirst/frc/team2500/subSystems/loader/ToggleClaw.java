@@ -4,15 +4,15 @@ import org.usfirst.frc.team2500.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ToggleArms extends Command {
+public class ToggleClaw extends Command {
 
-    public ToggleArms() {
-        requires(Loader.getInstance());
+    public ToggleClaw() {
+        requires(Claw.getInstance());
         setTimeout(.9);
     }
 
     protected void initialize() {
-    	Loader.getInstance().toggleArm();
+    	Claw.getInstance().toggleArm();
     }
 
     protected boolean isFinished() {

@@ -18,10 +18,11 @@ public class DriveDist extends Command {
 		Chassis.getInstance().resetEncoder();
 		Chassis.getInstance().setDistance(leftDistance, rightDistance);
 		Chassis.getInstance().startPID();
+		System.out.println("Driving Distance: " + leftDistance + "   " + rightDistance);
 	}
 
 	@Override
 	protected boolean isFinished() {
-        return isTimedOut();
+        return isTimedOut() || Chassis.getInstance().getPIDController().onTarget();
 	}
 }

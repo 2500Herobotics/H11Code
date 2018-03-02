@@ -7,41 +7,35 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Loader extends Subsystem {
+public class Claw extends Subsystem {
 	
-	private Victor wheels;
-	private Solenoid arms;
+	private Solenoid claw;
 	
-	private boolean armTarget;
+	private boolean clawTarget;
 
-	public static Loader instance;
+	public static Claw instance;
 	
-	public static Loader getInstance()
+	public static Claw getInstance()
     {
 		if (instance == null)
-		   instance = new Loader();
+		   instance = new Claw();
 	
 		return instance;
     }
 	
-	public Loader(){
-		wheels = new Victor(RobotPorts.INTAKE_WHEELS);
-		arms = new Solenoid(RobotPorts.INTAKE_ARM);
-		armTarget = false;
-	}
-	
-	public void setPower(double speed){
-		wheels.set(speed * 0.99999);
+	public Claw(){
+		claw = new Solenoid(RobotPorts.INTAKE_ARM);
+		clawTarget = false;
 	}
 	
 	public void toggleArm(){
-		armTarget = !armTarget;
-		arms.set(armTarget);
+		clawTarget = !clawTarget;
+		claw.set(clawTarget);
 	}
 	
 	public void setArm(boolean target){
-		armTarget = target;
-		arms.set(target);
+		clawTarget = target;
+		claw.set(target);
 	}
 
 	@Override

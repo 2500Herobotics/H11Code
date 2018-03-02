@@ -17,6 +17,7 @@ public class ArcadeDrive extends Command{
     	double turnValue = Controller.getTurn();
     	double moveValue = Controller.getMove();
     	Chassis.getInstance().arcadeDrive(turnValue, moveValue);
+    	System.out.println(Chassis.getInstance().getRotation());
     }
     
     protected boolean isFinished() {

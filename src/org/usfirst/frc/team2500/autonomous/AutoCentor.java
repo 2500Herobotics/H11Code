@@ -3,6 +3,7 @@ package org.usfirst.frc.team2500.autonomous;
 
 import org.usfirst.frc.team2500.subSystems.chassis.Drive;
 import org.usfirst.frc.team2500.subSystems.lift.Unloader;
+import org.usfirst.frc.team2500.subSystems.loader.OpenClaw;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -20,9 +21,9 @@ public class AutoCentor extends CommandGroup {
 			addSequential(new Drive(AutoDistances.SWITCH_ALIGN_DIST,AutoDistances.SWITCH_ALIGN_DIST,AutoDistances.SWITCH_ALIGN_DEG_RIGHT));
     	}
 		//Move to the wall
-		addSequential(new Drive(AutoDistances.SWITCH_DIST,AutoDistances.SWITCH_DIST,0));
+		addSequential(new Drive(AutoDistances.TO_SWITCH_DIST,AutoDistances.TO_SWITCH_DIST,0));
 		//Unload the block
-		addSequential(new Unloader(0, 1, 1));
+		addSequential(new OpenClaw());
 	}
 	
     public void initialize() {

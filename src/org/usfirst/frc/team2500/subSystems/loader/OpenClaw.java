@@ -4,20 +4,15 @@ import org.usfirst.frc.team2500.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class UnloadBlock extends Command {
+public class OpenClaw extends Command {
 
-    public UnloadBlock() {
-        requires(Loader.getInstance());
+    public OpenClaw() {
+        requires(Claw.getInstance());
         setTimeout(.9);
     }
 
     protected void initialize() {
-    	
-    }
-
-    protected void execute() {
-    	Loader.getInstance().setArm(true);
-    	Loader.getInstance().setPower(1);
+    	Claw.getInstance().setArm(true);
     }
 
     protected boolean isFinished() {
