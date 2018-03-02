@@ -24,6 +24,7 @@ import org.usfirst.frc.team2500.subSystems.lift.Lift;
  */
 public class Robot extends IterativeRobot {
 
+	//Things for the dashboard for picking auto
 	Command autonomousCommand;
 	SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 	
@@ -33,9 +34,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		
+		//Setup the controller
 		Controller.initialize();
 		
+		//Adds a box in the dropdown for each auto mode (default auto if none picked is baseline)
 		autonomousChooser.addDefault("Default Auto", new AutoBaseLine());
 		autonomousChooser.addObject("Base Line", new AutoBaseLine());
 		autonomousChooser.addObject("Left Switch", new AutoLeft());
@@ -56,9 +58,10 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit() {
+		//Check what auto is picked
 		autonomousCommand = autonomousChooser.getSelected();
 
-		// schedule the autonomous command (example)
+		//Start running whatever auto is picked
 		if (autonomousCommand != null){
 			autonomousCommand.start();
 		}
@@ -69,15 +72,13 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousPeriodic() {
+		//Run auto
 		Scheduler.getInstance().run();
 	}
 
 	@Override
 	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
+		// This makes sure that the autonomous stops running when teleop starts running.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 	}
@@ -87,8 +88,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		// Stuff for lift because its not command based yet because im waiting for encoders
 		Lift.getInstance().setSpeed(Controller.Get_Triggers());
-		Lift.getInstance().setPistons(Controller.Get_X());
+//		Lift.getInstance().setPistons(Controller.Get_X());
 		Scheduler.getInstance().run();
 	}
 }

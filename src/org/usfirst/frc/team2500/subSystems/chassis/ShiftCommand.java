@@ -8,7 +8,7 @@ public class ShiftCommand extends Command {
 
     protected void initialize() {
     	finnished = false;
-    	
+    	//Shift on button press
     	Chassis.getInstance().shiftTarget = !Chassis.getInstance().shiftTarget;
     	
     	finnished = true;

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2500.robot;
 
 public class RobotPorts {
+	//All of the ports eveything is pluged into
 	
 	// PWM
 	public static final int LEFT_DRIVE_PORT = 0;
@@ -12,17 +13,15 @@ public class RobotPorts {
 	// DIO
 	public static final int LEFT_ENCODER_PORT1 = 0;
 	public static final int LEFT_ENCODER_PORT2 = 1;
-//	public static final int LEFT_ENCODER_PORT3 = 2;
 
 	public static final int RIGHT_ENCODER_PORT1 = 2;
 	public static final int RIGHT_ENCODER_PORT2 = 3;
-//	public static final int RIGHT_ENCODER_PORT3 = 5;
 
-	public static final int LIFT_ENCODER_PORT1 = 6;
-	public static final int LIFT_ENCODER_PORT2 = 7;
-//	public static final int LIFT_ENCODER_PORT3 = 8;
-	
-	public static final int LIFT_LIMIT_SWITCH = 9;
+//	I dont have these ones :<
+//	public static final int LIFT_ENCODER_PORT1 = 5;
+//	public static final int LIFT_ENCODER_PORT2 = 6;
+//	
+//	public static final int LIFT_LIMIT_SWITCH = 7;
 	
 	// Pneumaatics ports
 	public static final int SHIFTER_PORT = 0;

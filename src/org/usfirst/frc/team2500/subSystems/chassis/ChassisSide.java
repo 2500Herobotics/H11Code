@@ -1,13 +1,7 @@
 package org.usfirst.frc.team2500.subSystems.chassis;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Victor;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.InternalButton;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 public class ChassisSide extends PIDSubsystem {
@@ -24,13 +18,13 @@ public class ChassisSide extends PIDSubsystem {
 	
 	public ChassisSide(int motor,int e1, int e2) {
 		super("Chassis Side",P, I, D);
-		setAbsoluteTolerance(0.05);
 		getPIDController().setContinuous(false);
-		getPIDController().setAbsoluteTolerance(2);
 		this.motor = new Talon(motor);
 
+		//This is the magic number that makes one number 1 inch on our wheels
 		double pulceRate = 250/13208.5;
 		
+		//Make encders and reset 0 them
 		encoder = new Encoder(e1,e2);
 		encoder.setDistancePerPulse(pulceRate);
 		encoder.reset();
@@ -51,11 +45,12 @@ public class ChassisSide extends PIDSubsystem {
 	protected void usePIDOutput(double output) {
 		motor.pidWrite(output * 0.3);
 		
+		//If we dont get a change on the encoders for a long time and we should be stop the drive
 		if(output > 0 && encoder.getRate() == 0){
 			encoderTimeout++;
 			if(encoderTimeout > 100){
 				pidLock = true;
-				stop();
+				Chassis.getInstance().stopPID();
 			}
 		}
 		else{

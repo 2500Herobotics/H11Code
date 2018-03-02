@@ -17,7 +17,6 @@ public class Rotate extends PIDCommand{
         requires(Chassis.getInstance());
         
 		getPIDController().setContinuous(false);
-//		getPIDController().setAbsoluteTolerance(5);
 		
         setTimeout(6);
     }

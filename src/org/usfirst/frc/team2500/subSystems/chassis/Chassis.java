@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.SPI;
 
 public class Chassis extends Subsystem{
 
+	//Making only one chassis exist in the code
 	public static Chassis instance;
 	
 	public static Chassis getInstance()
@@ -21,11 +22,13 @@ public class Chassis extends Subsystem{
 		return instance;
     }
 
+	//Each side of the chassis is its own pid subsystem to make drive dist easyer
 	private ChassisSide leftChassis;
 	private ChassisSide rightChassis;
-
+	
 	private Solenoid shifter;
 
+	//What we should be tring to shift to
 	public boolean shiftTarget;
 
 	private AHRS gyro;
@@ -40,6 +43,7 @@ public class Chassis extends Subsystem{
 		shiftTarget = false;
 	}
 	
+	//Will always be using arcade drive when nothing else is using it
 	@Override
 	protected void initDefaultCommand() {
 		setDefaultCommand(new ArcadeDrive());
@@ -50,6 +54,7 @@ public class Chassis extends Subsystem{
 		rightChassis.resetEncoder();
 	}
 	
+	//Set the target distence to drive to
 	public void setDistance(double left,double right){
 		leftChassis.setTarget(left);
 		rightChassis.setTarget(right * -1);
@@ -75,12 +80,17 @@ public class Chassis extends Subsystem{
 		return gyro.getAngle();
 	}
 
+	//Auto shifting
 	private final double MAX_HIGH_GEAR_SPEED = 2;
 	private final double MAX_LOW_GEAR_SPEED = 1;
 
+	//Magic number used to make highgear autoshift smooth
+	//It assumes that the acceleration is linear and makes the low gear max speed match up with that same value on the highgear equation
 	private final double MIN_MAX_CONVERTER = 1/(MAX_LOW_GEAR_SPEED/MAX_HIGH_GEAR_SPEED);
 
+	//What persenct of maxspeed do we shift at because we usualy dont get all the way up
 	private final double LOW_GEAR_SHIFT_PERCENT_HIGH = 0.9;
+	//Switch back a bit lower then the switch up to stop rapid toggle between the two
 	private final double LOW_GEAR_SHIFT_PERCENT_LOW = 0.8;
 
 	public void shiftingTankDrive(double left,double right){

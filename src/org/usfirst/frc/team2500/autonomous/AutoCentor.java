@@ -20,7 +20,7 @@ public class AutoCentor extends CommandGroup {
 		else{
 			addSequential(new Drive(AutoDistances.SWITCH_ALIGN_DIST,AutoDistances.SWITCH_ALIGN_DIST,AutoDistances.SWITCH_ALIGN_DEG_RIGHT));
     	}
-		//Move to the wall
+		//Move to the switch
 		addSequential(new Drive(AutoDistances.TO_SWITCH_DIST,AutoDistances.TO_SWITCH_DIST,0));
 		//Unload the block
 		addSequential(new OpenClaw());

@@ -1,7 +1,5 @@
 package org.usfirst.frc.team2500.subSystems.loader;
 
-import org.usfirst.frc.team2500.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ToggleClaw extends Command {
@@ -17,13 +15,5 @@ public class ToggleClaw extends Command {
 
     protected boolean isFinished() {
         return true;
-    }
-
-    protected void end() {
-    	
-    }
-
-    protected void interrupted() {
-    	end();
     }
 }

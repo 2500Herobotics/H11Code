@@ -17,6 +17,7 @@ public class Controller {
 	
 	public static boolean initialized = false;
     
+	//Setup all of the joystick commands and ports
     public static void initialize() {
     	
     	if (initialized)
@@ -32,14 +33,12 @@ public class Controller {
     	initialized = true;
     }
     
+    //Return the value you get from subtracing the trigers
     public static double Get_Triggers(){
-    	return pilot.getRawAxis(2)-pilot.getRawAxis(3);
-    }
-    
-    public static boolean Pilot_Shift(){
-    	return pilot.getRawButton(2);
+    	return pilot.getRawAxis(2) - pilot.getRawAxis(3);
     }
 	
+    //Function to remove the controler not homing properly
 	public static double handleDeadband(double val, double deadband) {
 		if (Math.abs(val) > deadband){
 			return val;
@@ -47,21 +46,33 @@ public class Controller {
 		return 0;
 	}
 	
+	//make the spots on the dashboard
 	private static void createDriverstaion(){
-//    	SmartDashboard.putNumber("pilotThrottle",0);
-//    	SmartDashboard.putNumber("pilotSteering",0);
+    	SmartDashboard.putNumber("pilotThrottle",0);
+    	SmartDashboard.putNumber("pilotSteering",0);
+    	SmartDashboard.putNumber("leftSpeed",0);
+    	SmartDashboard.putNumber("rightSpeed",0);
+    	SmartDashboard.putNumber("leftDist",0);
+    	SmartDashboard.putNumber("rightDist",0);
+    	SmartDashboard.putNumber("rotation",0);
 		
 	}
 
-	public static boolean Get_X() {
-		return pilot.getRawButton(GamePad.X);
-	}
+//	public static boolean Get_X() {
+//		return pilot.getRawButton(GamePad.X);
+//	}
 
+	//Retunr the proper x and update the dashboard with it
 	public static double getTurn() {
-		return pilot.getRawAxis(1) * -1;
+		double turn = pilot.getRawAxis(1) * -1;
+    	SmartDashboard.putNumber("pilotSteering",turn);
+		return turn;
 	}
 
+	//Retunr the proper y and update the dashboard with it
 	public static double getMove() {
-		return pilot.getRawAxis(0);
+		double move = pilot.getRawAxis(0);
+    	SmartDashboard.putNumber("pilotThrottle",move);
+		return move;
 	}
 }

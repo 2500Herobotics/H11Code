@@ -13,7 +13,7 @@ public class Lift extends PIDSubsystem {
 	private final static double D = 1;
 	
 	private Victor lift_motor;
-	private Solenoid piston;
+//	private Solenoid piston;
 	
 //	private Encoder encoder;
 //	private DigitalInput limitSwitch;
@@ -35,7 +35,7 @@ public class Lift extends PIDSubsystem {
 		setAbsoluteTolerance(0.05);
 		getPIDController().setContinuous(false);
 		lift_motor = new Victor(RobotPorts.LIFT);
-		piston = new Solenoid(RobotPorts.OUTPUT_PISTON);
+//		piston = new Solenoid(RobotPorts.OUTPUT_PISTON);
 //		encoder = new Encoder(RobotPorts.LIFT_ENCODER_PORT1, RobotPorts.LIFT_ENCODER_PORT2);
 //		limitSwitch = new DigitalInput(RobotPorts.LIFT_LIMIT_SWITCH);
 //		new InternalButton(limitSwitch.get()).whenPressed(new ResetEncoder());
@@ -45,7 +45,7 @@ public class Lift extends PIDSubsystem {
 	}
 	
 	public void setPistons(boolean value){
-		piston.set(value);
+//		piston.set(value);
 	}
 	
 	public void setSpeed(double speed){

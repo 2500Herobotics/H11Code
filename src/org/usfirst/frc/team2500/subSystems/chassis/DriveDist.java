@@ -15,6 +15,7 @@ public class DriveDist extends Command {
 	}
 	
 	public void initialize(){
+		//Make sure everything is 0 ed properly
 		Chassis.getInstance().resetEncoder();
 		Chassis.getInstance().setDistance(leftDistance, rightDistance);
 		Chassis.getInstance().startPID();

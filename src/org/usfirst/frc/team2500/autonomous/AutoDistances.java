@@ -9,18 +9,27 @@ public class AutoDistances {
     public static final double BASE_LINE_DIST = 130; //120 But we want to go over
 
     //All command stuff
+    //Get off of the wall so we can turn
     public static final double OFF_WALL_DIST = 40;
 
     //Left and right start stuff
+    //Distence to drive till we get to the point that we can pick what side of the scale to go to
     public static final double SCALE_INTERSECTION_DIST = 235;
+    //Distence to cross the field (this should put us in the spot as if we started auto on the other side of the field)
     public static final double SCALE_CROSS_DIST = 220;
+    //Distance to line with the scale from our intersection point
     public static final double SCALE_ALIGN_DIST = 81.5;
+    //Distance to drive forword to have the block above te scale
     public static final double SCALE_DIST = 32;
 
     //Centor start stuff
-    public static final double SWITCH_ALIGN_DEG_LEFT = 45;
-    public static final double SWITCH_ALIGN_DEG_RIGHT = 315;
+    //Degrees to turn for the left side
+    public static final double SWITCH_ALIGN_DEG_LEFT = -45;
+    //Degrees to turn for the right side
+    public static final double SWITCH_ALIGN_DEG_RIGHT = 45;
+    //Distence to turn to line up with the centor of our target switch
     public static final double SWITCH_ALIGN_DIST = 76.368;
+    //Distence to get the block above the switch
     public static final double TO_SWITCH_DIST = 45;
     
 }
