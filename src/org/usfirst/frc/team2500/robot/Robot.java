@@ -8,12 +8,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team2500.autonomous.AutoBaseLine;
-import org.usfirst.frc.team2500.autonomous.AutoCentor;
+import org.usfirst.frc.team2500.autonomous.AutoCenter;
 import org.usfirst.frc.team2500.autonomous.AutoLeft;
 import org.usfirst.frc.team2500.autonomous.AutoRight;
 //driverstaion imports
 import org.usfirst.frc.team2500.driverStation.Controller;
+import org.usfirst.frc.team2500.driverStation.DashboardUpdater;
+import org.usfirst.frc.team2500.subSystems.chassis.ShiftCommand;
 import org.usfirst.frc.team2500.subSystems.lift.Lift;
+import org.usfirst.frc.team2500.subSystems.lift.LiftTime;
+import org.usfirst.frc.team2500.subSystems.loader.OpenClaw;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,7 +30,7 @@ public class Robot extends IterativeRobot {
 
 	//Things for the dashboard for picking auto
 	Command autonomousCommand;
-	SendableChooser<Command> autonomousChooser = new SendableChooser<>();
+	SendableChooser<String> autonomousChooser = new SendableChooser<>();
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -34,16 +38,15 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		//Setup the controller
-		Controller.initialize();
-		
 		//Adds a box in the dropdown for each auto mode (default auto if none picked is baseline)
-		autonomousChooser.addDefault("Default Auto", new AutoBaseLine());
-		autonomousChooser.addObject("Base Line", new AutoBaseLine());
-		autonomousChooser.addObject("Left Switch", new AutoLeft());
-		autonomousChooser.addObject("Centor", new AutoCentor());
-		autonomousChooser.addObject("Right Switch", new AutoRight());
+		autonomousChooser.addDefault("Base Line", "Base Line");
+		autonomousChooser.addObject("Left Switch", "Left Switch");
+		autonomousChooser.addObject("Center", "Center");
+		autonomousChooser.addObject("Right Switch", "Right Switch");
+		autonomousChooser.addObject("Testing Command", "Test");
 		SmartDashboard.putData("Auto mode", autonomousChooser);
+		
+		new DashboardUpdater().start();
 	}
 	
 	/**
@@ -59,7 +62,26 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		//Check what auto is picked
-		autonomousCommand = autonomousChooser.getSelected();
+		switch(autonomousChooser.getSelected()){
+		case "Base Line":
+			autonomousCommand = new AutoBaseLine();
+			break;
+		case "Left Switch":
+			autonomousCommand = new AutoLeft();
+			break;
+		case "Center":
+			autonomousCommand = new AutoCenter();
+			break;
+		case "Right Switch":
+			autonomousCommand = new AutoRight();
+			break;
+		case "Test":
+			autonomousCommand = new OpenClaw();
+			break;
+		default:
+			autonomousCommand = new AutoBaseLine();
+			break;
+		}
 
 		//Start running whatever auto is picked
 		if (autonomousCommand != null){
@@ -88,9 +110,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		// Stuff for lift because its not command based yet because im waiting for encoders
-		Lift.getInstance().setSpeed(Controller.Get_Triggers());
-//		Lift.getInstance().setPistons(Controller.Get_X());
 		Scheduler.getInstance().run();
 	}
 }

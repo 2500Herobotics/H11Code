@@ -4,10 +4,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class Drive extends CommandGroup {
 	
-	public Drive(double leftDistence, double rightDistence,double degrees){
+	public Drive(double distence,double degrees){
 		//Turn to a degree
     	addSequential(new Rotate(degrees));
     	//Move a distance
-    	addSequential(new DriveDist(leftDistence, rightDistence));
+    	addSequential(new DriveDist(distence));
 	}
 }

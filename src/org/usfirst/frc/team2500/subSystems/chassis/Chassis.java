@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
  import edu.wpi.first.wpilibj.Solenoid;
  import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Chassis extends Subsystem{
 
@@ -36,7 +37,9 @@ public class Chassis extends Subsystem{
 	public Chassis(){
 		leftChassis = new ChassisSide(RobotPorts.LEFT_DRIVE_PORT,RobotPorts.LEFT_ENCODER_PORT1,RobotPorts.LEFT_ENCODER_PORT2);
 		rightChassis = new ChassisSide(RobotPorts.RIGHT_DRIVE_PORT,RobotPorts.RIGHT_ENCODER_PORT1,RobotPorts.RIGHT_ENCODER_PORT2);
-
+		
+		shifter = new Solenoid(RobotPorts.SHIFTER_PORT);
+		
 		gyro = new AHRS(SPI.Port.kMXP);
 		gyro.reset();
 
@@ -53,15 +56,21 @@ public class Chassis extends Subsystem{
 		leftChassis.resetEncoder();
 		rightChassis.resetEncoder();
 	}
-	
-	//Set the target distence to drive to
-	public void setDistance(double left,double right){
-		leftChassis.setTarget(left);
-		rightChassis.setTarget(right * -1);
+
+	public void resetGyro() {
+		gyro.reset();
 	}
 	
-	public void printDistace(){
-		System.out.println(leftChassis.getDistance() + "   " + rightChassis.getDistance());
+	public double getAverageDistance(){
+		return (leftChassis.getDistance() + rightChassis.getDistance() * -1)/2;
+	}
+	
+	public double getLeftDistance(){
+		return leftChassis.getDistance();
+	}
+	
+	public double getRightDistance(){
+		return -rightChassis.getDistance();
 	}
 	
 	public double getAverageRate(){
@@ -77,12 +86,13 @@ public class Chassis extends Subsystem{
 	}
 	
 	public double getRotation(){
+    	SmartDashboard.putNumber("rotation",gyro.getAngle());
 		return gyro.getAngle();
 	}
 
 	//Auto shifting
-	private final double MAX_HIGH_GEAR_SPEED = 2;
-	private final double MAX_LOW_GEAR_SPEED = 1;
+	private final double MAX_HIGH_GEAR_SPEED = 160;
+	private final double MAX_LOW_GEAR_SPEED = 55;
 
 	//Magic number used to make highgear autoshift smooth
 	//It assumes that the acceleration is linear and makes the low gear max speed match up with that same value on the highgear equation
@@ -91,7 +101,7 @@ public class Chassis extends Subsystem{
 	//What persenct of maxspeed do we shift at because we usualy dont get all the way up
 	private final double LOW_GEAR_SHIFT_PERCENT_HIGH = 0.9;
 	//Switch back a bit lower then the switch up to stop rapid toggle between the two
-	private final double LOW_GEAR_SHIFT_PERCENT_LOW = 0.8;
+	private final double LOW_GEAR_SHIFT_PERCENT_LOW = 0.6;
 
 	public void shiftingTankDrive(double left,double right){
 		if(shiftTarget){
@@ -153,21 +163,11 @@ public class Chassis extends Subsystem{
 	    shiftingTankDrive(leftMotorOutput,rightMotorOutput * -1);
 	}
 	
-	public void stopPID(){
-		leftChassis.stop();
-		rightChassis.stop();
+	public boolean getGear(){
+		return shifter.get();
 	}
 	
-	public void startPID(){
-		leftChassis.start();
-		rightChassis.start();
-	}
-
-	public void resetGyro() {
-		gyro.reset();
-	}
-
-	public PIDController getPIDController() {
-		return getPIDController();
+	public boolean getGearTarget(){
+		return shiftTarget;
 	}
 }

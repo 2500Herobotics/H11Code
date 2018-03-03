@@ -8,10 +8,10 @@ public class AutoBaseLine extends CommandGroup {
 
 	public AutoBaseLine(){
 		//Drive to the baseline and then stop
-    	addSequential(new DriveDist(AutoDistances.BASE_LINE_DIST,AutoDistances.BASE_LINE_DIST));
+    	addSequential(new DriveDist(AutoDistances.BASE_LINE_DIST));
 	}
 	
 	public void initialize() {
-		
+		System.out.println("Starting Baseline Auto");
     }
 }

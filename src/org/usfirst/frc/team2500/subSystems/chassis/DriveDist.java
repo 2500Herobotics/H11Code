@@ -1,29 +1,57 @@
 package org.usfirst.frc.team2500.subSystems.chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.PIDCommand;
 
-public class DriveDist extends Command {
+public class DriveDist extends PIDCommand {
+
+	private final static double P = 1.0;
+	private final static double I = 0.0;
+	private final static double D = 0.1;
 	
-	private double leftDistance;
-	private double rightDistance;
+	private double distance;
 	
-	public DriveDist(double leftDistance, double rightDistance){
+	public DriveDist(double distance){
+        super("Drive",P, I, D);
 		requires(Chassis.getInstance());
-		this.leftDistance = leftDistance;
-		this.rightDistance = rightDistance;
-        setTimeout(3);
+		
+		getPIDController().setContinuous(false);
+		getPIDController().setAbsoluteTolerance(0.1);
+        setTimeout(2);
+
+		this.distance = distance;
 	}
 	
 	public void initialize(){
 		//Make sure everything is 0 ed properly
 		Chassis.getInstance().resetEncoder();
-		Chassis.getInstance().setDistance(leftDistance, rightDistance);
-		Chassis.getInstance().startPID();
-		System.out.println("Driving Distance: " + leftDistance + "   " + rightDistance);
+		Chassis.getInstance().resetGyro();
+
+		System.out.println("Driving to: " + distance);
+		getPIDController().setSetpoint(distance);
+		
 	}
 
 	@Override
-	protected boolean isFinished() {
-        return isTimedOut() || Chassis.getInstance().getPIDController().onTarget();
+	protected double returnPIDInput() {
+//		System.out.println(Chassis.getInstance().getAverageDistance());
+		return Chassis.getInstance().getAverageDistance();
 	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		Chassis.getInstance().arcadeDrive(output * 0.4, Chassis.getInstance().getRotation() * -0.1);
+	}
+    
+    protected boolean isFinished() {
+        return isTimedOut() || getPIDController().onTarget();
+    }
+
+    protected void end() {
+    	
+    }
+
+    protected void interrupted() {
+    	end();
+    }
 }

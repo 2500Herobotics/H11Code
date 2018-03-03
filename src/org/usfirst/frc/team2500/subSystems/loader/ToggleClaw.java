@@ -6,11 +6,11 @@ public class ToggleClaw extends Command {
 
     public ToggleClaw() {
         requires(Claw.getInstance());
-        setTimeout(.9);
     }
 
     protected void initialize() {
     	Claw.getInstance().toggleArm();
+    	System.out.println("Jaw Toggle");
     }
 
     protected boolean isFinished() {

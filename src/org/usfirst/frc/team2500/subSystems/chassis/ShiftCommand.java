@@ -4,19 +4,16 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class ShiftCommand extends Command {
 
-	boolean finnished = false;
-
+	public ShiftCommand(){
+		System.out.println("Shifting drive gears");
+	}
+	
     protected void initialize() {
-    	finnished = false;
-    	//Shift on button press
     	Chassis.getInstance().shiftTarget = !Chassis.getInstance().shiftTarget;
-    	
-    	finnished = true;
     }
 	
 	@Override
 	protected boolean isFinished() {
-		return finnished;
+		return true;
 	}
-
 }

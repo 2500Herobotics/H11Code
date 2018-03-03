@@ -10,6 +10,7 @@ public class OpenClaw extends Command {
 
     protected void initialize() {
     	Claw.getInstance().setArm(true);
+    	System.out.println("Jaw Open");
     }
 
     protected boolean isFinished() {

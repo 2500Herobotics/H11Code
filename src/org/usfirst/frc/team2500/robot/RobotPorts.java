@@ -25,6 +25,6 @@ public class RobotPorts {
 	
 	// Pneumaatics ports
 	public static final int SHIFTER_PORT = 0;
-	public static final int INTAKE_ARM = 1;
-	public static final int OUTPUT_PISTON = 2;
+	public static final int INTAKE_ARM = 2;
+	public static final int OUTPUT_PISTON = 1;
 }

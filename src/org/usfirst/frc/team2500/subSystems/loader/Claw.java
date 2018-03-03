@@ -10,8 +10,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Claw extends Subsystem {
 	
 	private Solenoid claw;
-	
-	private boolean clawTarget;
 
 	public static Claw instance;
 	
@@ -25,21 +23,22 @@ public class Claw extends Subsystem {
 	
 	public Claw(){
 		claw = new Solenoid(RobotPorts.INTAKE_ARM);
-		clawTarget = false;
 	}
 	
 	public void toggleArm(){
-		clawTarget = !clawTarget;
-		claw.set(clawTarget);
+		claw.set(!getState());
 	}
 	
 	public void setArm(boolean target){
-		clawTarget = target;
 		claw.set(target);
 	}
 
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
+	}
+	
+	public boolean getState(){
+		return claw.get();
 	}
 }

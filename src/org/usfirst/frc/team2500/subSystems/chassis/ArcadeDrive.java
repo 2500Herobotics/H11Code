@@ -11,15 +11,10 @@ public class ArcadeDrive extends Command{
         requires(Chassis.getInstance());
     }
     
-    public void initialize(){
-    	//Stop the chassis from trying to move to a point
-        Chassis.getInstance().stopPID();
-    }
-    
     protected void execute(){
     	//Get the values that the motors should be moving at and set them
-    	double turnValue = Controller.getTurn();
-    	double moveValue = Controller.getMove();
+    	double turnValue = Controller.getInstance().getTurn();
+    	double moveValue = Controller.getInstance().getMove();
     	Chassis.getInstance().arcadeDrive(turnValue, moveValue);
     }
     
