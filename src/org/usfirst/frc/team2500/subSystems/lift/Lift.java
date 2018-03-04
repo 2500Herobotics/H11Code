@@ -33,6 +33,6 @@ public class Lift extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new RunLift());
+//		setDefaultCommand(new RunLift());
 	}
 }

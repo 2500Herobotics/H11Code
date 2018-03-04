@@ -1,6 +1,5 @@
 package org.usfirst.frc.team2500.robot;
 
-//wpi imports
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -11,12 +10,10 @@ import org.usfirst.frc.team2500.autonomous.AutoBaseLine;
 import org.usfirst.frc.team2500.autonomous.AutoCenter;
 import org.usfirst.frc.team2500.autonomous.AutoLeft;
 import org.usfirst.frc.team2500.autonomous.AutoRight;
-//driverstaion imports
 import org.usfirst.frc.team2500.driverStation.Controller;
 import org.usfirst.frc.team2500.driverStation.DashboardUpdater;
-import org.usfirst.frc.team2500.subSystems.chassis.ShiftCommand;
+import org.usfirst.frc.team2500.subSystems.chassis.LowGear;
 import org.usfirst.frc.team2500.subSystems.lift.Lift;
-import org.usfirst.frc.team2500.subSystems.lift.LiftTime;
 import org.usfirst.frc.team2500.subSystems.loader.OpenClaw;
 
 /**
@@ -61,6 +58,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit() {
+		new LowGear();
 		//Check what auto is picked
 		switch(autonomousChooser.getSelected()){
 		case "Base Line":
@@ -110,6 +108,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		Lift.getInstance().setSpeed(Controller.getInstance().get_Triggers());
 		Scheduler.getInstance().run();
 	}
 }

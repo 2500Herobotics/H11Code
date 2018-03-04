@@ -10,7 +10,7 @@ public class AutoDistances {
 
     //All command stuff
     //Get off of the wall so we can turn
-    public static final double OFF_WALL_DIST = 30;
+    public static final double OFF_WALL_DIST = 10;
 
     //Left and right start stuff
     //Distence to drive till we get to the point that we can pick what side of the scale to go to
@@ -24,12 +24,13 @@ public class AutoDistances {
 
     //Centor start stuff
     //Degrees to turn for the left side
-    public static final double SWITCH_ALIGN_DEG_LEFT = -45;
+    public static final double SWITCH_ALIGN_DEG_LEFT = -55;
     //Degrees to turn for the right side
     public static final double SWITCH_ALIGN_DEG_RIGHT = 55;
     //Distence to turn to line up with the centor of our target switch
-    public static final double SWITCH_ALIGN_DIST = 65;
+    public static final double SWITCH_ALIGN_DIST_LEFT = 75;
+    public static final double SWITCH_ALIGN_DIST_RIGHT = 93;
     //Distence to get the block above the switch
-    public static final double TO_SWITCH_DIST = 55;
+    public static final double TO_SWITCH_DIST = 75;
     
 }
