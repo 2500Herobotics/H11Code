@@ -5,6 +5,7 @@ import org.usfirst.frc.team2500.subSystems.chassis.Drive;
 import org.usfirst.frc.team2500.subSystems.chassis.LowGear;
 import org.usfirst.frc.team2500.subSystems.lift.LiftTime;
 import org.usfirst.frc.team2500.subSystems.loader.OpenClaw;
+import org.usfirst.frc.team2500.subSystems.loader.ToggleClaw;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -29,7 +30,7 @@ public class AutoCenter extends CommandGroup {
     	}
 		System.out.println("Running the command");
 		//Unload the block
-		addSequential(new OpenClaw());
+		addSequential(new ToggleClaw());
 	}
 	
     public void initialize() {

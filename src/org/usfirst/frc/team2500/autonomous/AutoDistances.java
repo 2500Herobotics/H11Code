@@ -6,7 +6,7 @@ public class AutoDistances {
 	 */
 	
     //Base line stuff
-    public static final double BASE_LINE_DIST = 130; //120 But we want to go over
+    public static final double BASE_LINE_DIST = 140; //120 But we want to go over
 
     //All command stuff
     //Get off of the wall so we can turn

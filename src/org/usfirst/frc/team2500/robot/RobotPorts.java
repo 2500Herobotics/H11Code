@@ -11,8 +11,8 @@ public class RobotPorts {
 	public static final int CLIMBER = 4;
 	
 	// DIO
-	public static final int LEFT_ENCODER_PORT1 = 0;
-	public static final int LEFT_ENCODER_PORT2 = 1;
+	public static final int LEFT_ENCODER_PORT1 = 4;
+	public static final int LEFT_ENCODER_PORT2 = 5;
 
 	public static final int RIGHT_ENCODER_PORT1 = 2;
 	public static final int RIGHT_ENCODER_PORT2 = 3;
@@ -23,8 +23,9 @@ public class RobotPorts {
 //	
 //	public static final int LIFT_LIMIT_SWITCH = 7;
 	
-	// Pneumaatics ports
-	public static final int SHIFTER_PORT = 0;
-	public static final int INTAKE_ARM = 2;
-	public static final int OUTPUT_PISTON = 1;
+	// Pneumatics ports
+	public static final int SHIFTER_PORT = 2;
+	public static final int INTAKE_ARM = 0;
+	public static final int INTAKE_LOWER = 1;
+//	public static final int OUTPUT_PISTON = 1;
 }

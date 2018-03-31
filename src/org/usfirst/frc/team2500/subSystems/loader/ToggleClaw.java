@@ -9,8 +9,16 @@ public class ToggleClaw extends Command {
     }
 
     protected void initialize() {
-    	Claw.getInstance().toggleArm();
-    	System.out.println("Jaw Toggle");
+    	// Lower and open the claw if currently raised, otherwise close and raise
+    	Claw claw = Claw.getInstance();
+    	if (claw.getLowered()){
+    		claw.setArm(false); //close claw
+    		claw.setDeployed(false); //raise claw
+    	}
+    	else {
+    		claw.setArm(true);
+    		claw.setDeployed(true);
+    	}
     }
 
     protected boolean isFinished() {

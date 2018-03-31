@@ -2,7 +2,11 @@ package org.usfirst.frc.team2500.driverStation;
 
 import org.usfirst.frc.team2500.subSystems.chassis.Chassis;
 import org.usfirst.frc.team2500.subSystems.chassis.ShiftCommand;
+import org.usfirst.frc.team2500.subSystems.loader.IntakeCube;
+import org.usfirst.frc.team2500.subSystems.loader.SetClaw;
+import org.usfirst.frc.team2500.subSystems.loader.SetWheels;
 import org.usfirst.frc.team2500.subSystems.loader.ToggleClaw;
+import org.usfirst.frc.team2500.subSystems.loader.WheelsTimed;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -31,6 +35,12 @@ public class Controller {
 
     	new JoystickButton(pilot,GamePad.A).whenPressed(new ToggleClaw());
     	new JoystickButton(pilot,GamePad.B).whenPressed(new ShiftCommand());
+    	new JoystickButton(pilot,GamePad.X).whenPressed(new IntakeCube());
+    	new JoystickButton(pilot,GamePad.X).whenReleased(new SetWheels(0));
+    	new JoystickButton(pilot,GamePad.Y).whenPressed(new SetWheels(-1));
+    	new JoystickButton(pilot,GamePad.Y).whenReleased(new SetWheels(0));
+    	new JoystickButton(pilot,GamePad.RB).whenReleased(new SetClaw(false));
+    	new JoystickButton(pilot,GamePad.LB).whenReleased(new SetClaw(true));
 	}
     
     //Return the value you get from subtracing the trigers
